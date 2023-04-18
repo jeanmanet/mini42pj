@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 22:03:37 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/14 23:50:55 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/18 20:06:32 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,30 @@ void	ft_add_var(t_data *data)
 	t_token_node	*list_tokens;
 
 	list_tokens = data->token_list;
+	while(list_tokens)
+	{
+		if (cmd_is_builtin_2(list_tokens->token))
+			return ;
+		if (get_absolute_command(list_tokens->token, data->envp))
+			return ;
+		list_tokens = list_tokens->next;
+	}
+	list_tokens = data->token_list;
 	while (list_tokens)
 	{
 		if (list_tokens->q_state == S_NOT_IN_QUOTE && list_tokens->type == T_ARG)
 		{
-			if (list_tokens->prev)
-			{
-				if (ft_strcmp(list_tokens->prev->token, "export") == 0)
-					return ;
-				if (ft_strcmp(list_tokens->prev->token, "unset") == 0)
-					return ;
+			// if (list_tokens->prev)
+			// {
+			// 	// if (ft_strcmp(list_tokens->prev->token, "export") == 0)
+			// 	// 	return ;
+			// 	// if (ft_strcmp(list_tokens->prev->token, "unset") == 0)
+			// 	// 	return ;
+			// 	if (cmd_is_builtin(data->command_line))
+			// 		return ;
+			// 	if (get_absolute_command())
 				
-			}
+			// }
 			if (list_tokens->token && ft_ischarset(list_tokens->token, '='))
 			{
 				list_tokens->type = T_VAR;
@@ -132,6 +144,7 @@ void	ft_command_line(t_data *data)
 		data->token_list = tokenizer(data->command_line);
 		if (!unexpected_token_2(data))
 		{
+			printf("token = %s type = %d\n", data->token_list->token, data->token_list->type);
 			if (replace_var_by_value(data))
 				ft_add_var(data);
 			parse_token_list(data);

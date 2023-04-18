@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 11:47:39 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/14 23:40:06 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/18 20:05:03 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,25 @@ int	cmd_is_builtin(t_com *command)
 	return (0);
 }
 
+int	cmd_is_builtin_2(char *command)
+{
+	if (!ft_strncmp(command, "exit", 5))
+		return (1);
+	if (!ft_strncmp(command, "cd", 3))
+		return (1);
+	if (!ft_strncmp(command, "pwd", 4))
+		return (1);
+	if (!ft_strncmp(command, "echo", 5))
+		return (1);
+	if (!ft_strncmp(command, "export", 7))
+		return (1);
+	if (!ft_strncmp(command, "env", 4))
+		return (1);
+	if (!ft_strncmp(command, "unset", 6))
+		return (1);
+	return (0);
+}
+
 int	exec_builtin(t_com *command, t_data *data)
 {
 	if (!ft_strncmp(command->args[0], "exit", 5))
@@ -192,7 +211,9 @@ void	delete_var_in_env(char *name, t_data *data)
 	char	*name_with_equal;
 	int	i;
 	char	**new_envp;
+	int	j;
 
+	j = 0;
 	i = 0;
 	name_with_equal = ft_strjoin(name, "=");
 	while(data->envp[i])
@@ -203,8 +224,11 @@ void	delete_var_in_env(char *name, t_data *data)
 	i = 0;
 	while (data->envp[i])
 	{
-		if (!ft_strncmp(data->envp[i], name_with_equal, ft_strlen(name_with_equal)))
-			new_envp[i] = ft_strdup(data->envp[i]);
+		if (ft_strncmp(data->envp[i], name_with_equal, ft_strlen(name_with_equal)))
+		{
+			new_envp[j] = ft_strdup(data->envp[i]);
+			j++;
+		}
 		i++;
 	}
 	i--;
