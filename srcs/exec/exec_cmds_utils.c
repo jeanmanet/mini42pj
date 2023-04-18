@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 10:26:17 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/18 17:54:42 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/18 21:16:06 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,11 +121,37 @@ char	*path_env(char **envp)
 	return (NULL);
 }
 
+// char	*ft_absolute_path(char *cmd, const char *PATH)
+// {
+// 	char	**paths;
+// 	char	*tmp;
+// 	char	*current_path;
+// 	int		i;
+
+// 	i = 0;
+// 	paths = ft_split(PATH, ':');
+// 	while (paths && paths[i])
+// 	{
+// 		tmp = ft_strjoin(paths[i], "/");
+// 		current_path = ft_strjoin(tmp, cmd);
+// 		free(tmp);
+// 		if (access(current_path, X_OK) == 0)
+// 		{
+// 			free_tab_str_cmd(paths);
+// 			return (current_path);
+// 		}
+// 		free(current_path);
+// 		i++;
+// 	}
+// 	return (NULL);
+// }
+
 char	*ft_absolute_path(char *cmd, const char *PATH)
 {
 	char	**paths;
 	char	*tmp;
 	char	*current_path;
+	char	*result;
 	int		i;
 
 	i = 0;
@@ -138,13 +164,17 @@ char	*ft_absolute_path(char *cmd, const char *PATH)
 		if (access(current_path, X_OK) == 0)
 		{
 			free_tab_str_cmd(paths);
-			return (current_path);
+			result = ft_strdup(current_path);
+			free(current_path);
+			return (result);
 		}
 		free(current_path);
 		i++;
 	}
+	free_tab_str_cmd(paths);
 	return (NULL);
 }
+
 
 char	*get_absolute_command(char	*arg, char **envp)
 {
@@ -160,6 +190,20 @@ char	*get_absolute_command(char	*arg, char **envp)
 	cmd = ft_absolute_path(cmd, path);
 	if (!cmd)
 		cmd_not_found(cmd_name);
+	free(path);
+	return (cmd);
+}
+
+char	*str_is_cmd(char	*arg, char **envp)
+{
+	char	*cmd;
+	char	*path;
+
+	cmd = arg;
+	if (!access(cmd, X_OK))
+		return (ft_strdup(cmd));
+	path = path_env(envp);
+	cmd = ft_absolute_path(cmd, path);
 	free(path);
 	return (cmd);
 }

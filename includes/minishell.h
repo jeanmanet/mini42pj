@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 12:09:47 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/18 20:05:26 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/18 21:04:38 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -205,4 +205,5 @@ char	*var_name(char *str, int flag);
 char	*replace_var(char *var, t_data *data);
 char* extract_vars(char* str, t_data *data);
 int	cmd_is_builtin_2(char *command);
+char	*str_is_cmd(char	*arg, char **envp);
 #endif

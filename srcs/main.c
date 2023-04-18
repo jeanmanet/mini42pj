@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 22:03:37 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/18 20:06:32 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/18 21:04:21 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,18 @@ int	check_quotes(char *str)
 void	ft_add_var(t_data *data)
 {
 	t_token_node	*list_tokens;
+	char		*cmd;
 
 	list_tokens = data->token_list;
 	while(list_tokens)
 	{
 		if (cmd_is_builtin_2(list_tokens->token))
 			return ;
-		if (get_absolute_command(list_tokens->token, data->envp))
+		if ((cmd = str_is_cmd(list_tokens->token, data->envp)))
+		{
+			free(cmd);
 			return ;
+		}
 		list_tokens = list_tokens->next;
 	}
 	list_tokens = data->token_list;
