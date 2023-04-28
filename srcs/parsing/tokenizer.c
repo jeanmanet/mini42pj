@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 10:55:24 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/14 22:17:06 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/27 16:41:17 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,18 +85,35 @@ t_token_node	*tokenizer(char *commandline)
 
 	start = 0;
 	token_list = NULL;
+	//int	flag = 0;
+	int	flag_len_zero = 1;
 	while (commandline[start])
 	{
+		printf("start = %d\n", start);
 		len = get_next_token(&commandline[start]);
+		if (len == 0)
+			flag_len_zero = 0;
+		printf("len = %zu\n", len);
 		if (ft_lexing(commandline[start]) <= LEX_DQUOTE)
 		{
 			if (ft_lexing(commandline[start]) <= LEX_PIPE)
+			{
 				temp = ft_substr(commandline, start, len);
+				// if (len != 0 && flag == 0)
+				// 	flag = 1;
+				printf("temp = %s\n", temp);
+			}
 			else
+			{
 				temp = ft_substr(commandline, start + 1, len - 2);
-			add_token_node(&token_list, temp, ft_lexing(commandline[start]));
+				// if (len != 0 && flag == 0)
+				// 	flag = 1;
+				printf("temp2 = %s\n", temp);
+			}
+			add_token_node(&token_list, temp, ft_lexing(commandline[start]), &flag_len_zero);
 			start += (int)len;
 			free(temp);
+			printf("start = %d\n", start);
 		}
 		else
 			start++;
@@ -113,7 +130,7 @@ int	unexpected_token(char *command_line)
 	while(command_line[i])
 		i++;
 	i = i - 1;
-	if (command_line[i] == '<' || command_line[i] == '>' || command_line[i] == '|')
+	if (command_line[i] == '<' || command_line[i] == '>' || command_line[i] == '|' || command_line[0] == '|')
 	{
 		printf("syntax error: unexpected token\n");
 		return (1);

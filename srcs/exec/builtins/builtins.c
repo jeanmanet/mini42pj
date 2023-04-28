@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 11:47:39 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/18 20:51:31 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/28 14:26:34 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,8 @@ int	cmd_is_builtin(t_com *command)
 
 int	cmd_is_builtin_2(char *command)
 {
+	if (ft_ischarset(command, '='))
+		return (0);
 	if (!ft_strncmp(command, "exit", 5))
 		return (1);
 	if (!ft_strncmp(command, "cd", 3))
@@ -160,10 +162,7 @@ int	cmd_is_builtin_2(char *command)
 int	exec_builtin(t_com *command, t_data *data)
 {
 	if (!ft_strncmp(command->args[0], "exit", 5))
-	{
-		free_mem(data);
-		exit (0);
-	}
+		return (ft_exit(command, data));
 	if (!ft_strncmp(command->args[0], "cd", 3))
 		return (ft_change_directory(command, data));
 	if (!ft_strncmp(command->args[0], "pwd", 4))
@@ -239,4 +238,59 @@ void	delete_var_in_env(char *name, t_data *data)
 	free(data->envp);
 	free(name_with_equal);
 	data->envp = new_envp;
+}
+
+int	ft_exit(t_com *command, t_data *data)
+{
+	int	i;
+	int	exit_code;
+	char	*str;
+
+	i = 1;
+	if (command->args[i])
+	{
+		while(command->args[i])
+			i++;
+		i--;
+		if(i > 1 && str_is_only_digit(command->args[1]))
+		{
+			printf("exit\nminishell: exit: too many arguments\n");
+			global.exit_code = 1;
+		}
+		else if (!str_is_only_digit(command->args[1]))
+		{
+			printf("exit\nminishell: exit: %s: numeric argument required\n", command->args[1]);
+			free_mem(data);
+			exit(255);
+		}
+		else
+		{
+			printf("exit\n");
+			str = ft_strdup(command->args[1]);
+			exit_code = ft_atoi(str);
+			free(str);
+			free_mem(data);
+			exit(exit_code);
+		}
+	}
+	else
+	{
+		free_mem(data);
+		exit (0);
+	}
+	return (0);
+}
+
+int	str_is_only_digit(char *str)
+{
+	int	i;
+
+	i = 0;
+	while(str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }

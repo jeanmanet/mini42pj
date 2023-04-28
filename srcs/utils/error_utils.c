@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 08:59:42 by jmanet            #+#    #+#             */
-/*   Updated: 2023/03/10 09:36:30 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/04/28 12:53:21 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	exit_cmd_strerror(char *cmd_name)
 
 void	cmd_not_found(char *cmd_name)
 {
+	global.exit_code = 127;
 	write(2, "command not found: ", 19);
 	write(2, cmd_name, ft_strlen(cmd_name));
 	write(2, "\n", 1);

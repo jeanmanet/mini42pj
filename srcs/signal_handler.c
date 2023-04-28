@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 09:31:12 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/14 09:55:45 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/28 14:47:38 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	handle_sigint(void)
 	{
 		kill(global.g_pid, SIGINT);
 		global.g_pid = 0;
+		global.exit_code = 130;
 		printf("\n");
 		rl_on_new_line();
 	}
@@ -45,6 +46,7 @@ void	handle_sigquit(void)
 	{
 		kill(global.g_pid, SIGINT);
 		global.g_pid = 0;
+		global.exit_code = 131;
 		printf("Quit: 3\n");
 		rl_on_new_line();
 	}

@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 10:26:17 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/18 21:16:06 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/25 18:57:24 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,7 @@ char	*get_absolute_command(char	*arg, char **envp)
 		return (ft_strdup(cmd));
 	path = path_env(envp);
 	cmd = ft_absolute_path(cmd, path);
+	printf("cmd = %s\n", cmd);
 	if (!cmd)
 		cmd_not_found(cmd_name);
 	free(path);
@@ -200,6 +201,8 @@ char	*str_is_cmd(char	*arg, char **envp)
 	char	*path;
 
 	cmd = arg;
+	if (ft_ischarset(cmd, '='))
+		return (NULL);
 	if (!access(cmd, X_OK))
 		return (ft_strdup(cmd));
 	path = path_env(envp);

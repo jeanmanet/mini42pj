@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 22:03:37 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/18 21:04:21 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/28 13:03:30 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,81 @@ int	check_quotes(char *str)
 	return (!(nb_quotes % 2));
 }
 
+void	join_var_was_splited_in_tokenizer(t_data *data)
+{
+	t_token_node	*list_tokens;
+	char		*new_str;
+
+	list_tokens = data->token_list;
+	while(list_tokens)
+	{
+		if (list_tokens->flag_for_join_with_prev_token == 1)
+		{
+			new_str = ft_strjoin(list_tokens->prev->token, list_tokens->token);
+			free(list_tokens->prev->token);
+			list_tokens->prev->token = ft_strdup(new_str);
+			free(new_str);
+			delete_token_node(&list_tokens);
+            		list_tokens = data->token_list;
+			
+		}
+		else
+			list_tokens = list_tokens->next;
+	}
+}
+
+int	unexpected_var_assignment(t_data *data)
+{
+	t_token_node	*list_token;
+
+	list_token = data->token_list;
+	while(list_token)
+	{
+		if (list_token->type == T_ARG)
+		{
+			if (list_token->token && ft_ischarset(list_token->token, '='))
+			{
+				if (list_token->token[ft_strlen(list_token->token) - 1] == '=')
+					return (1);
+				if ((list_token->next == NULL || list_token->next->type < 4))
+				{
+					if (unexpected_char_in_name(list_token->token))
+					{
+						printf("%s: command not found\n", list_token->token);
+						return (1);
+					}
+				}
+			}
+		}
+		list_token = list_token->next;
+	}
+	return (0);
+}
+
+void	invalid_assignment(t_data *data)
+{
+	t_token_node	*list_token;
+
+	list_token = data->token_list;
+	while(list_token)
+	{
+		if (list_token->type == T_ARG)
+		{
+			if (list_token->token && ft_ischarset(list_token->token, '='))
+				list_token->var_assignment = 0;
+		}
+		list_token = list_token->next;
+	}
+}
+
 void	ft_add_var(t_data *data)
 {
 	t_token_node	*list_tokens;
 	char		*cmd;
 
 	list_tokens = data->token_list;
+	join_var_was_splited_in_tokenizer(data);
+	printf("test\n");
 	while(list_tokens)
 	{
 		if (cmd_is_builtin_2(list_tokens->token))
@@ -60,10 +129,12 @@ void	ft_add_var(t_data *data)
 		}
 		list_tokens = list_tokens->next;
 	}
+	if (unexpected_var_assignment(data))
+	 	invalid_assignment(data);
 	list_tokens = data->token_list;
 	while (list_tokens)
 	{
-		if (list_tokens->q_state == S_NOT_IN_QUOTE && list_tokens->type == T_ARG)
+		if (list_tokens->type == T_ARG)
 		{
 			// if (list_tokens->prev)
 			// {
@@ -74,19 +145,20 @@ void	ft_add_var(t_data *data)
 			// 	if (cmd_is_builtin(data->command_line))
 			// 		return ;
 			// 	if (get_absolute_command())
-				
 			// }
 			if (list_tokens->token && ft_ischarset(list_tokens->token, '='))
 			{
 				list_tokens->type = T_VAR;
-				if (list_tokens->next == NULL || list_tokens->next->type < 4)
+				printf("token--------> =  %s\n", list_tokens->token);
+				if ((list_tokens->next == NULL || list_tokens->next->type < 4))
 				{
-					if (unexpected_char_in_name(list_tokens->token))
-					{
-						printf("%s: command not found\n", list_tokens->token);
-						return ;
-					}
-					add_var_in_list(data, list_tokens->token);
+					// if (unexpected_char_in_name(list_tokens->token))
+					// {
+					// 	printf("%s: command not found\n", list_tokens->token);
+					// 	return ;
+					// }
+					if (list_tokens->var_assignment == 1)
+						add_var_in_list(data, list_tokens->token);
 				}
 			}
 		}
@@ -145,10 +217,12 @@ void	ft_command_line(t_data *data)
 	if (ft_strlen(data->command_line) > 0
 			&& check_quotes(data->command_line) && !unexpected_token(data->command_line))
 	{
+		//print_tokens(data->token_list);
 		data->token_list = tokenizer(data->command_line);
 		if (!unexpected_token_2(data))
 		{
-			printf("token = %s type = %d\n", data->token_list->token, data->token_list->type);
+			//printf("kkkkkkkkkkkkkkkkkkkkkkk\n");
+			//printf("token = %s type = %d  flag = %d\n", data->token_list->token, data->token_list->type, data->token_list->flag_for_join_token_after);
 			if (replace_var_by_value(data))
 				ft_add_var(data);
 			parse_token_list(data);

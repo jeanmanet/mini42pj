@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 12:26:37 by jmanet            #+#    #+#             */
-/*   Updated: 2023/03/20 17:03:29 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/04/27 18:41:26 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ void	parse_token_list(t_data *data)
 	token_list_head = data->token_list;
 	while (token_list_head)
 	{
+		//printf("type = %d\n", token_list_head->type);
 		if (token_list_head->type != T_PIPE)
 		{
 			current_command = get_command_node(token_list_head);

@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 12:09:47 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/18 21:04:38 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/28 13:55:30 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ typedef struct s_token_node{
 	char				*token;
 	int					q_state;
 	int					type;
+	int			flag_for_join_with_prev_token;
+	int			var_assignment;
 	struct s_token_node	*next;
 	struct s_token_node	*prev;
 }t_token_node;
@@ -153,9 +155,10 @@ int				open_outfile(t_data *data);
 void			parse_token_list(t_data *data);
 int				ft_lexing(char c);
 int				execute_ast(t_data *data);
-t_token_node	*create_token_node(char *token, int state);
+t_token_node	*create_token_node(char *token, int state, int flag);
 void			add_token_node(t_token_node **list_head,
-					char *token, int state);
+					char *token, int state, int *flag);
+void			delete_token_node(t_token_node **node);
 void			print_tokens(t_token_node *list_head);
 t_token_node	*tokenizer(char *commandline);
 void			add_ast_node(t_data *data, t_union *content, int type);
@@ -201,9 +204,16 @@ int	unexpected_char_in_name(char *str);
 char	*extract_value_in_assignment(char *str);
 char	*extract_name_in_assignment(char *str);
 char	*var_name(char *str, int flag);
+int	unexpected_var_assignment(t_data *data);
+void	invalid_assignment(t_data *data);
 
 char	*replace_var(char *var, t_data *data);
 char* extract_vars(char* str, t_data *data);
 int	cmd_is_builtin_2(char *command);
 char	*str_is_cmd(char	*arg, char **envp);
+void set_env_var(char *name, char *value, t_data *data, int flag_plus);
+int get_name_and_index(char *str, char **name, int *flag_plus, int *i);
+int variable_length(char* str, int start);
+int	str_is_only_digit(char *str);
+int	ft_exit(t_com *command, t_data *data);
 #endif
