@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 20:07:26 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/28 00:39:58 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/28 15:38:51 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ void	add_token_node(t_token_node **list_head, char *token, int state, int *flag_
 	new_node = create_token_node(token, state, flag_for_join_with_prev_token);
 	if (*flag_len_zero == 0)
 		*flag_len_zero = 1;
-	printf("flag test = %d\n", *flag_len_zero);
 	if (*list_head == NULL)
 	{
 		*list_head = new_node;
@@ -103,19 +102,19 @@ void	print_tokens(t_token_node *list_head)
 
 void delete_token_node(t_token_node **node)
 {
-    if (*node == NULL)
-        return;
+	t_token_node	*prev_node;
+    	t_token_node	*next_node;
 
-    t_token_node *prev_node = (*node)->prev;
-    t_token_node *next_node = (*node)->next;
-
-    if (prev_node != NULL)
-        prev_node->next = next_node;
-    if (next_node != NULL)
-        next_node->prev = prev_node;
-
-    free((*node)->token);
-    free(*node);
-    *node = NULL;
+    	if (*node == NULL)
+    	    return;
+    	prev_node = (*node)->prev;
+    	next_node = (*node)->next;
+    	if (prev_node != NULL)
+    	    prev_node->next = next_node;
+    	if (next_node != NULL)
+    	    next_node->prev = prev_node;
+    	free((*node)->token);
+    	free(*node);
+    	*node = NULL;
 }
 

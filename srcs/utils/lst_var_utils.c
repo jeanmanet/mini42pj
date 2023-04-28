@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/04 22:45:11 by ory               #+#    #+#             */
-/*   Updated: 2023/04/14 23:42:54 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/28 15:41:05 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void    lst_add_var(t_data *data, char *name, char *value, int flag)
 {
-	t_lst_var *new_var;
-        char    *old_value;
-        char    *new_value;
+	t_lst_var       *new_var;
+        char            *old_value;
+        char            *new_value;
 
         if (flag == 2)
         {

@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 10:55:24 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/27 16:41:17 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/28 15:39:53 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,41 +79,27 @@ void	get_token_type(t_token_node *token_list)
 t_token_node	*tokenizer(char *commandline)
 {
 	t_token_node	*token_list;
-	char			*temp;
-	int				start;
-	size_t			len;
+	char		*temp;
+	int		start;
+	size_t		len;
 
 	start = 0;
 	token_list = NULL;
-	//int	flag = 0;
 	int	flag_len_zero = 1;
 	while (commandline[start])
 	{
-		printf("start = %d\n", start);
 		len = get_next_token(&commandline[start]);
 		if (len == 0)
 			flag_len_zero = 0;
-		printf("len = %zu\n", len);
 		if (ft_lexing(commandline[start]) <= LEX_DQUOTE)
 		{
 			if (ft_lexing(commandline[start]) <= LEX_PIPE)
-			{
 				temp = ft_substr(commandline, start, len);
-				// if (len != 0 && flag == 0)
-				// 	flag = 1;
-				printf("temp = %s\n", temp);
-			}
 			else
-			{
 				temp = ft_substr(commandline, start + 1, len - 2);
-				// if (len != 0 && flag == 0)
-				// 	flag = 1;
-				printf("temp2 = %s\n", temp);
-			}
 			add_token_node(&token_list, temp, ft_lexing(commandline[start]), &flag_len_zero);
 			start += (int)len;
 			free(temp);
-			printf("start = %d\n", start);
 		}
 		else
 			start++;
@@ -137,50 +123,6 @@ int	unexpected_token(char *command_line)
 	}
 	return (0);
 }
-
-// int	unexpected_token_2(t_data *data)
-// {
-// 	// (void)data;
-// 	// return (0);
-// 	t_token_node	*tmp;
-
-// 	tmp = data->token_list;
-// 	while(tmp && tmp->next)
-// 	{
-// 		if ((tmp->type == 1 || tmp->type == 2 || tmp->type == 4)
-// 			&& (tmp->next->type == 1 || tmp->next->type == 2 || tmp->next->type == 4))
-// 		{
-// 			if(!(tmp->type == 4 && tmp->next->type == 1))
-// 			{
-// 				if (((tmp->type == 1 || tmp->type == 2 || tmp->type == 4)) && is_only_compose_by_redir_char(tmp->next->token))
-// 				{
-// 					printf("syntax error: unexpected token `%s'\n", tmp->next->token);
-// 					return (1);
-// 				}
-// 			}
-// 		}
-// 		tmp = tmp->next;
-// 	}
-// 	return (0);
-// }
-
-// int	unexpected_token_2(t_data *data)
-// {
-// 	t_token_node	*tmp;
-
-// 	tmp = data->token_list;
-// 	while(tmp && tmp->next)
-// 	{
-// 		if ((tmp->type == 1 || tmp->type == 2 || tmp->type == 4)
-// 			&& (tmp->next->type == 1 || tmp->next->type == 2 || tmp->next->type == 4))
-// 		{
-// 			printf("syntax error: unexpected token `%s'\n", tmp->next->token);
-// 			return (1);
-// 		}
-// 		tmp = tmp->next;
-// 	}
-// 	return (0);
-// }
 
 int unexpected_token_2(t_data *data)
 {

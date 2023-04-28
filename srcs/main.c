@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 22:03:37 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/28 13:03:30 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/28 15:49:38 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ t_global global;
 
 int	check_quotes(char *str)
 {
-	int		i;
-	int		nb_quotes;
+	int	i;
+	int	nb_quotes;
 	char	c;
 
 	i = 0;
@@ -117,7 +117,6 @@ void	ft_add_var(t_data *data)
 
 	list_tokens = data->token_list;
 	join_var_was_splited_in_tokenizer(data);
-	printf("test\n");
 	while(list_tokens)
 	{
 		if (cmd_is_builtin_2(list_tokens->token))
@@ -136,27 +135,11 @@ void	ft_add_var(t_data *data)
 	{
 		if (list_tokens->type == T_ARG)
 		{
-			// if (list_tokens->prev)
-			// {
-			// 	// if (ft_strcmp(list_tokens->prev->token, "export") == 0)
-			// 	// 	return ;
-			// 	// if (ft_strcmp(list_tokens->prev->token, "unset") == 0)
-			// 	// 	return ;
-			// 	if (cmd_is_builtin(data->command_line))
-			// 		return ;
-			// 	if (get_absolute_command())
-			// }
 			if (list_tokens->token && ft_ischarset(list_tokens->token, '='))
 			{
 				list_tokens->type = T_VAR;
-				printf("token--------> =  %s\n", list_tokens->token);
 				if ((list_tokens->next == NULL || list_tokens->next->type < 4))
 				{
-					// if (unexpected_char_in_name(list_tokens->token))
-					// {
-					// 	printf("%s: command not found\n", list_tokens->token);
-					// 	return ;
-					// }
 					if (list_tokens->var_assignment == 1)
 						add_var_in_list(data, list_tokens->token);
 				}
@@ -217,12 +200,9 @@ void	ft_command_line(t_data *data)
 	if (ft_strlen(data->command_line) > 0
 			&& check_quotes(data->command_line) && !unexpected_token(data->command_line))
 	{
-		//print_tokens(data->token_list);
 		data->token_list = tokenizer(data->command_line);
 		if (!unexpected_token_2(data))
 		{
-			//printf("kkkkkkkkkkkkkkkkkkkkkkk\n");
-			//printf("token = %s type = %d  flag = %d\n", data->token_list->token, data->token_list->type, data->token_list->flag_for_join_token_after);
 			if (replace_var_by_value(data))
 				ft_add_var(data);
 			parse_token_list(data);

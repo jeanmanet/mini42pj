@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 20:58:40 by ory               #+#    #+#             */
-/*   Updated: 2023/04/23 18:41:10 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/28 15:48:11 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,14 +122,14 @@ int	check_if_var_is_for_env(char *name, char *value, t_data *data, int flag_plus
 
 void	set_env_var(char *name, char *value, t_data *data, int flag_plus)
 {
-    char	*tmp_str;
-    char	*str;
+    	char	*tmp_str;
+    	char	*str;
 
-    tmp_str = ft_strjoin(name, "=");
-    str = ft_strjoin(tmp_str, value);
-    ft_setenv(name, str, 1, data, flag_plus);
-    free(tmp_str);
-    free(str);
+    	tmp_str = ft_strjoin(name, "=");
+    	str = ft_strjoin(tmp_str, value);
+    	ft_setenv(name, str, 1, data, flag_plus);
+    	free(tmp_str);
+    	free(str);
 }
 
 int	var_is_in_env(char *name, t_data *data)

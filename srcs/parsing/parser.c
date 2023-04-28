@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 12:26:37 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/27 18:41:26 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/28 15:39:23 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	get_openfile_type(char *token)
 t_com	*get_command_node(t_token_node *token_list)
 {
 	t_com	*command;
-	int		i;
+	int	i;
 
 	i = 0;
 	command = current_command_init(token_list);
@@ -98,13 +98,12 @@ t_com	*get_command_node(t_token_node *token_list)
 
 void	parse_token_list(t_data *data)
 {
-	t_com			*current_command;
+	t_com		*current_command;
 	t_token_node	*token_list_head;
 
 	token_list_head = data->token_list;
 	while (token_list_head)
 	{
-		//printf("type = %d\n", token_list_head->type);
 		if (token_list_head->type != T_PIPE)
 		{
 			current_command = get_command_node(token_list_head);
