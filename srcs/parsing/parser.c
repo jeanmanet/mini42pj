@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 12:26:37 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/28 15:39:23 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/30 00:05:53 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_com	*current_command_init(t_token_node *token_list)
 {
 	t_com	*cmd;
 	char	**args;
-	int		i;
+	int	i;
 
 	i = 0;
 	while (token_list && token_list->type != T_PIPE)

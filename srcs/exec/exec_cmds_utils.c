@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 10:26:17 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/28 15:50:42 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/29 23:52:26 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*ft_absolute_path(char *cmd, const char *PATH)
 	char	*tmp;
 	char	*current_path;
 	char	*result;
-	int		i;
+	int	i;
 
 	i = 0;
 	paths = ft_split(PATH, ':');

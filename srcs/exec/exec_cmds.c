@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 09:28:44 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/14 07:47:40 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/30 19:31:39 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	exec_command(t_com *command, t_data *data)
 	saved_stdin = dup(STDIN_FILENO);
 	saved_stdout = dup(STDOUT_FILENO);
 	returnval = 0;
+	global.exit_code = 0;
 	if (!ft_redirect_io(command) && command->args[0] != NULL)
 	{
 		if (cmd_is_builtin(command))
@@ -42,7 +43,7 @@ int	exec_processus(t_com *command, t_data *data)
 {
 	char	**cmd;
 	char	*absolute_cmd;
-	int		status;
+	int	status;
 
 	cmd = command->args;
 	absolute_cmd = get_absolute_command(cmd[0], data->envp);

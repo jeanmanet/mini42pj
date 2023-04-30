@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:51:45 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/14 23:43:17 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/30 19:40:42 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void free_ast(t_ast *ast_tree)
         ast_tree->root = NULL;
     }
 }
-
 
 void	free_mem(t_data *data)
 {

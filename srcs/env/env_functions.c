@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 09:17:31 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/14 23:36:27 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/30 14:15:00 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,39 +75,85 @@ int	ft_addtoenv(char *value, t_data *data)
 	return (1);
 }
 
+// int	ft_setenv(char *name, char *value, int overwrite, t_data *data, int flag_plus)
+// {
+// 	int	i;
+// 	char	*value_if_flag;
+// 	char	*old_value;
+// 	char	*new_value;
+
+// 	i = 0;
+// 	if (ft_ischarset(name, '='))
+// 		return (EINVAL);
+// 	while (data->envp[i])
+// 	{
+		
+// 		if (!ft_strncmp(data->envp[i], name, ft_strlen(name)))
+// 		{
+// 			if (overwrite == 1)
+// 			{
+// 				if (flag_plus)
+// 				{
+// 					new_value = ft_substr(value, ft_strlen(name) + 1, ft_strlen(value) - ft_strlen(name) - 1);
+// 					old_value = ft_strdup(data->envp[i]);
+// 					value_if_flag = ft_strjoin(old_value, new_value);
+// 					free(data->envp[i]);
+// 					data->envp[i] = ft_strdup(value_if_flag);
+// 					free(value_if_flag);
+// 					free(old_value);
+// 					free(new_value);
+// 					return (0);
+// 				}
+// 				free(data->envp[i]);
+// 				data->envp[i] = ft_strdup(value);
+// 				return (0);
+// 			}
+// 		}
+// 		i++;
+// 	}
+// 	if (ft_addtoenv(value, data))
+// 		return (0);
+// 	return (-1);
+// }
+
+
+int	ft_setenv_add(int i, char *name, char *value, t_data *data)
+{
+	char	*new_value;
+	char	*old_value;
+	char	*value_if_flag;
+
+	new_value = ft_substr(value, ft_strlen(name) + 1, ft_strlen(value) - ft_strlen(name) - 1);
+	old_value = ft_strdup(data->envp[i]);
+	value_if_flag = ft_strjoin(old_value, new_value);
+	free(data->envp[i]);
+	data->envp[i] = ft_strdup(value_if_flag);
+	free(value_if_flag);
+	free(old_value);
+	free(new_value);
+	return (0);
+}
+
 int	ft_setenv(char *name, char *value, int overwrite, t_data *data, int flag_plus)
 {
 	int	i;
-	char	*value_if_flag;
-	char	*old_value;
-	char	*new_value;
 
 	i = 0;
 	if (ft_ischarset(name, '='))
 		return (EINVAL);
 	while (data->envp[i])
 	{
-		
 		if (!ft_strncmp(data->envp[i], name, ft_strlen(name)))
 		{
 			if (overwrite == 1)
 			{
 				if (flag_plus)
-				{
-					new_value = ft_substr(value, ft_strlen(name) + 1, ft_strlen(value) - ft_strlen(name) - 1);
-					old_value = ft_strdup(data->envp[i]);
-					value_if_flag = ft_strjoin(old_value, new_value);
-					free(data->envp[i]);
-					data->envp[i] = ft_strdup(value_if_flag);
-					free(value_if_flag);
-					free(old_value);
-					free(new_value);
-					return (0);
-				}
+					return (ft_setenv_add(i, name, value, data));
 				free(data->envp[i]);
 				data->envp[i] = ft_strdup(value);
 				return (0);
 			}
+			return (0);
 		}
 		i++;
 	}

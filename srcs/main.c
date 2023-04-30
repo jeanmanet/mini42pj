@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 22:03:37 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/28 15:49:38 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/30 19:51:12 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,14 @@ int	check_quotes(char *str)
 		i++;
 	}
 	if (nb_quotes % 2 != 0)
-		printf("Error in command, some quotes aren't closed \n");
+		print_error("Error in command, some quotes aren't closed \n", 2);
 	return (!(nb_quotes % 2));
+}
+
+void	print_error(char *str, int error)
+{
+	global.exit_code = error;
+	printf("%s", str);
 }
 
 void	join_var_was_splited_in_tokenizer(t_data *data)
@@ -59,7 +65,6 @@ void	join_var_was_splited_in_tokenizer(t_data *data)
 			free(new_str);
 			delete_token_node(&list_tokens);
             		list_tokens = data->token_list;
-			
 		}
 		else
 			list_tokens = list_tokens->next;
@@ -84,6 +89,7 @@ int	unexpected_var_assignment(t_data *data)
 					if (unexpected_char_in_name(list_token->token))
 					{
 						printf("%s: command not found\n", list_token->token);
+						global.exit_code = 127;
 						return (1);
 					}
 				}
@@ -110,6 +116,45 @@ void	invalid_assignment(t_data *data)
 	}
 }
 
+// void	ft_add_var(t_data *data)
+// {
+// 	t_token_node	*list_tokens;
+// 	char		*cmd;
+
+// 	list_tokens = data->token_list;
+// 	join_var_was_splited_in_tokenizer(data);
+// 	while(list_tokens)
+// 	{
+// 		if (cmd_is_builtin_2(list_tokens->token))
+// 			return ;
+// 		if ((cmd = str_is_cmd(list_tokens->token, data->envp)))
+// 		{
+// 			free(cmd);
+// 			return ;
+// 		}
+// 		list_tokens = list_tokens->next;
+// 	}
+// 	if (unexpected_var_assignment(data))
+// 	 	invalid_assignment(data);
+// 	list_tokens = data->token_list;
+// 	while (list_tokens)
+// 	{
+// 		if (list_tokens->type == T_ARG)
+// 		{
+// 			if (list_tokens->token && ft_ischarset(list_tokens->token, '='))
+// 			{
+// 				list_tokens->type = T_VAR;
+// 				if ((list_tokens->next == NULL || list_tokens->next->type < 4))
+// 				{
+// 					if (list_tokens->var_assignment == 1)
+// 						add_var_in_list(data, list_tokens->token);
+// 				}
+// 			}
+// 		}
+// 		list_tokens = list_tokens->next;
+// 	}
+// }
+
 void	ft_add_var(t_data *data)
 {
 	t_token_node	*list_tokens;
@@ -130,19 +175,23 @@ void	ft_add_var(t_data *data)
 	}
 	if (unexpected_var_assignment(data))
 	 	invalid_assignment(data);
+	var_assignment(data);
+}
+
+void var_assignment(t_data *data)
+{
+	t_token_node	*list_tokens;
+	
 	list_tokens = data->token_list;
 	while (list_tokens)
 	{
-		if (list_tokens->type == T_ARG)
+		if (list_tokens->type == T_ARG && list_tokens->token && ft_ischarset(list_tokens->token, '='))
 		{
-			if (list_tokens->token && ft_ischarset(list_tokens->token, '='))
+			list_tokens->type = T_VAR;
+			if (list_tokens->next == NULL || list_tokens->next->type < 4)
 			{
-				list_tokens->type = T_VAR;
-				if ((list_tokens->next == NULL || list_tokens->next->type < 4))
-				{
-					if (list_tokens->var_assignment == 1)
-						add_var_in_list(data, list_tokens->token);
-				}
+				if (list_tokens->var_assignment == 1)
+					add_var_in_list(data, list_tokens->token);
 			}
 		}
 		list_tokens = list_tokens->next;
@@ -201,6 +250,12 @@ void	ft_command_line(t_data *data)
 			&& check_quotes(data->command_line) && !unexpected_token(data->command_line))
 	{
 		data->token_list = tokenizer(data->command_line);
+		//t_token_node *tmp = data->token_list;
+		// while(data->token_list)
+		// {
+		// 	printf("token = %s type = %d  flag = %d\n", data->token_list->token, data->token_list->type, data->token_list->flag_for_join_with_prev_token);
+		// 	data->token_list = data->token_list->next;
+		// }
 		if (!unexpected_token_2(data))
 		{
 			if (replace_var_by_value(data))
