@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 12:09:47 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/30 19:48:31 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/30 21:13:17 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,4 +237,22 @@ int	ft_exit(t_com *command, t_data *data);
 void	unset_variable(char *name, t_data *data);
 int	execute_both_pipe_nodes(t_pipe *pipe, int pipe_fd[2], int *pid2, t_data *data);
 void	print_error(char *str, int error);
+void	ft_add_var(t_data *data);
+int	execute_right_node(t_ast_node *right, int *pipe_fd, t_data *data);
+int	execute_left_node(t_ast_node *left, int *pipe_fd, t_data *data);
+int	execute_pipe_node(t_ast_node *node, t_data *data);
+int	execute_cmd_node(t_ast_node *node, t_data *data);
+int	execute_both_pipe_nodes(t_pipe *pipe, int pipe_fd[2], int *pid2, t_data *data);
+int	execute_ast(t_data *data);
+void	join_var_was_splited_in_tokenizer(t_data *data);
+char    *append_string(char* str1, char* str2);
+int	ft_exit(t_com *command, t_data *data);
+void	check_exit_args(t_com *command, t_data *data);
+int	str_is_only_digit(char *str);
+int	ft_export(t_com *command, t_data *data);
+void    export_var(char *arg, t_data *data);
+void	export_var_assignment(char *name, char *arg, t_data *data);
+void	var_already_outside_env(char *name, char *value, t_data *data);
+char	*var_name(char *str, int flag);
+
 #endif

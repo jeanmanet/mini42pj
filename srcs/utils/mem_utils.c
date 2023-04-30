@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:51:45 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/30 19:40:42 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/30 20:44:42 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	free_pipe_node(t_ast_node	*pipe_node)
 	free(pipe_node);
 }
 
-void free_ast(t_ast *ast_tree)
+void	free_ast(t_ast *ast_tree)
 {
     if (ast_tree == NULL)
         return;

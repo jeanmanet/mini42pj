@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 08:59:42 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/30 19:39:52 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/30 21:01:19 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,10 @@ void	cmd_not_found(char *cmd_name)
 	write(2, "command not found: ", 19);
 	write(2, cmd_name, ft_strlen(cmd_name));
 	write(2, "\n", 1);
+}
+
+void	print_error(char *str, int error)
+{
+	global.exit_code = error;
+	printf("%s", str);
 }

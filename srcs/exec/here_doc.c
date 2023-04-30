@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 18:36:48 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/30 19:24:22 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/30 20:28:43 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,40 +25,6 @@ int	open_here_docfile(void)
 	}
 	return (fd_here_doc);
 }
-
-// int	make_here_doc(t_com *command)
-// {
-// 	int	fd_here_doc;
-// 	char	*line;
-// 	char	*temp;
-
-//         line = NULL;
-//         temp = NULL;
-// 	fd_here_doc = open_here_docfile();
-// 	command->here_doc_limiter = command->infile;
-// 	while (1)
-// 	{
-//                 signal(SIGINT, ft_signal_handler_here_doc);
-//  		signal(SIGQUIT, ft_signal_handler_here_doc);
-// 		temp = readline("here_doc > ");
-//                 if (!temp)
-//  			break ;
-// 		line = ft_strjoin(temp, "\n");
-// 		free(temp);
-// 		if (ft_strlen(line) == ft_strlen(command->here_doc_limiter) + 1)
-// 			if (ft_strncmp(line, command->here_doc_limiter,
-// 					ft_strlen(line) - 1) == 0)
-// 				break ;
-// 		ft_putstr_fd(line, fd_here_doc);
-// 		free(line);
-//                 line = NULL;
-// 	}
-// 	if (line)
-//  		free(line);
-//         if (fd_here_doc)
-// 	        close(fd_here_doc);
-// 	return (fd_here_doc);
-// }
 
 void	ft_make_here_doc(t_ast_node *node, t_data *data)
 {
