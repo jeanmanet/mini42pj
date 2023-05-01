@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 09:31:12 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/30 19:55:51 by ory              ###   ########.fr       */
+/*   Updated: 2023/04/30 21:38:44 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,20 +70,42 @@ void	ft_signal_handler(void)
 	sigaction(SIGQUIT, &sigact, NULL);
 }
 
+// void	ft_signal_handler_here_doc(int signal)
+// {
+// 	if (signal == SIGINT)
+// 	{
+// 		global.tmp_fd_here_doc = -2;
+// 		// if (global.fd_here_doc != -1)
+// 		//close(global.fd_here_doc);
+// 		//printf("handler ctrl c heredoc\n");
+
+// 		// printf("\e[2K");
+// 		// rl_on_new_line();
+// 		// rl_redisplay();
+
+// 		// rl_on_new_line();
+// 		// write(0, "\x04", 1);
+// 		//unlink(".here_doc.tmp");
+// 	}
+// 	else if (signal == SIGQUIT)
+// 	{
+// 		printf("\e[2K");
+// 		rl_on_new_line();
+// 		rl_redisplay();
+// 	}
+// }
+
 void	ft_signal_handler_here_doc(int signal)
 {
 	if (signal == SIGINT)
 	{
-		//global.tmp_fd_here_doc = 1;
-		// if (global.fd_here_doc != -1)
-		//close(global.fd_here_doc);
-		//printf("handler ctrl c heredoc\n");
-		printf("\e[2K");
-		rl_on_new_line();
-		rl_redisplay();
-		// rl_on_new_line();
-		// write(0, "\x04", 1);
-		//unlink(".here_doc.tmp");
+		if (global.fd_here_doc != -2) // vérifie que le here_doc est ouvert
+		{
+			//close(global.fd_here_doc); // ferme le fichier du here_doc
+			global.fd_here_doc = -2; // réinitialise le descripteur de fichier du here_doc
+			printf("\n"); // affiche une nouvelle ligne
+			//prompt(); // affiche le prompt de minishell
+		}
 	}
 	else if (signal == SIGQUIT)
 	{
@@ -92,5 +114,3 @@ void	ft_signal_handler_here_doc(int signal)
 		rl_redisplay();
 	}
 }
-
- 
