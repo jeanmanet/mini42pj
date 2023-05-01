@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 18:36:48 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/30 21:29:29 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/01 22:22:39 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,7 @@ char	*readline_here_doc(char *prompt)
 	temp = NULL;
 	signal(SIGINT, ft_signal_handler_here_doc);
 	signal(SIGQUIT, ft_signal_handler_here_doc);
-        if (global.fd_here_doc != -2)
-	        temp = readline(prompt);
+	temp = readline(prompt);
 	if (!temp)
 		return (NULL);
 	line = ft_strjoin(temp, "\n");
@@ -95,4 +94,3 @@ int	make_here_doc(t_com *command)
 	close(fd_here_doc);
 	return (fd_here_doc);
 }
-
