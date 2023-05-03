@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 09:31:12 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/01 22:21:48 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/03 18:51:09 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,14 @@ void	ft_signal_handler_here_doc(int signal)
 {
 	if (signal == SIGINT)
 	{
+		global.fd_here_doc = 1;
 		printf("\e[2K");
 		rl_on_new_line();
 		rl_redisplay();
 	}
 	else if (signal == SIGQUIT)
 	{
+		global.fd_here_doc = 1;
 		printf("\e[2K");
 		rl_on_new_line();
 		rl_redisplay();

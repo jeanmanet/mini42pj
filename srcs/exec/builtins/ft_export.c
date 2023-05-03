@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:20:17 by ory               #+#    #+#             */
-/*   Updated: 2023/04/30 21:13:13 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/02 13:47:34 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	ft_export(t_com *command, t_data *data)
 	int		i;
 	
 	i = 1;
+	if (!command->args[1])
+		ft_env_export(data);
 	while (command->args[i])
 	{
 		export_var(command->args[i], data);

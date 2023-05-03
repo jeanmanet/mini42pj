@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 11:47:39 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/30 20:24:39 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/03 18:51:50 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	exec_builtin(t_com *command, t_data *data)
 	if (!ft_strncmp(command->args[0], "cd", 3))
 		return (ft_change_directory(command, data));
 	if (!ft_strncmp(command->args[0], "pwd", 4))
-		printf("%s\n", ft_getenv("PWD=", data));
+		printf("%s\n", getenv("PWD"));
 	if (!ft_strncmp(command->args[0], "echo", 5))
 		return (ft_echo(command));
 	if (!ft_strncmp(command->args[0], "export", 7))

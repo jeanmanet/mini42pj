@@ -6,42 +6,13 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 22:03:37 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/30 21:06:06 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/03 18:51:24 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 t_global global;
-
-int	check_quotes(char *str)
-{
-	int	i;
-	int	nb_quotes;
-	char	c;
-
-	i = 0;
-	nb_quotes = 0;
-	if (!str || !*str)
-		return (0);
-	while (str[i])
-	{
-		if ((ft_lexing(str[i]) == LEX_SQUOTE)
-			|| (ft_lexing(str[i]) == LEX_DQUOTE))
-		{
-			c = str[i++];
-			nb_quotes++;
-			while (str[i] && str[i] != c)
-				i++;
-			if (str[i] == c)
-				nb_quotes++;
-		}
-		i++;
-	}
-	if (nb_quotes % 2 != 0)
-		print_error("Error in command, some quotes aren't closed \n", 2);
-	return (!(nb_quotes % 2));
-}
 
 void	prompt(t_data *data)
 {
@@ -67,8 +38,7 @@ void	prompt(t_data *data)
 
 void	ft_command_line(t_data *data)
 {
-	if (ft_strlen(data->command_line) > 0
-			&& check_quotes(data->command_line) && !unexpected_token(data->command_line))
+	if (!check_cmdline(data->command_line) && !unexpected_token(data->command_line))
 	{
 		data->token_list = tokenizer(data->command_line);
 		if (!unexpected_token_2(data))

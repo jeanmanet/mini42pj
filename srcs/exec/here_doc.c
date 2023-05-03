@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 18:36:48 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/01 22:22:39 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/03 13:57:29 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,5 @@ int	make_here_doc(t_com *command)
 	}
 	if (line)
 		free(line);
-	close(fd_here_doc);
 	return (fd_here_doc);
 }

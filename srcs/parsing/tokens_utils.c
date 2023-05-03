@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:36:51 by ory               #+#    #+#             */
-/*   Updated: 2023/04/30 20:37:25 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/02 19:57:16 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	print_tokens(t_token_node *list_head)
 	while (current_node != NULL)
 	{
 		printf("Tokens dans la liste : \n");
-		printf("[%s] ", current_node->token);
+		printf("[%s] type = %d var_assignment = %d    ", current_node->token, current_node->type, current_node->var_assignment);
 		if (current_node->q_state == S_IN_SQUOTE)
 			printf("-> IN_SQUOTE ,");
 		else if (current_node->q_state == S_IN_DQUOTE)

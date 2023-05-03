@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 12:09:47 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/30 21:13:17 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/03 11:31:17 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ typedef struct s_lst_var
 
 typedef struct s_global	
 {
-    int 	g_pid;
+	int	g_pid;
+//     int 	g_pid_parent;
+//     int		g_pid_child;
     int		fd_here_doc;
     int		tmp_fd_here_doc;
     int		exit_code;
@@ -254,5 +256,8 @@ void    export_var(char *arg, t_data *data);
 void	export_var_assignment(char *name, char *arg, t_data *data);
 void	var_already_outside_env(char *name, char *value, t_data *data);
 char	*var_name(char *str, int flag);
+void	ft_env_export(t_data *data);
+int	check_cmdline(char *cmdline);
+int	cmdline_is_only_spaces(char *cmdline);
 
 #endif
