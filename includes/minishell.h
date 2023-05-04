@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 12:09:47 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/03 11:31:17 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/04 20:10:07 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct s_lst_var
 	struct	s_lst_var 	*next;
 }	t_lst_var;
 
-typedef struct s_global	
+typedef struct s_global
 {
 	int	g_pid;
 //     int 	g_pid_parent;
@@ -259,5 +259,7 @@ char	*var_name(char *str, int flag);
 void	ft_env_export(t_data *data);
 int	check_cmdline(char *cmdline);
 int	cmdline_is_only_spaces(char *cmdline);
+int exec_builtin_in_process(t_com *command, t_data *data);
+int	ft_echo(t_com *command);
 
 #endif

@@ -3,40 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 11:47:39 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/03 18:51:50 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/04 20:08:58 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-int	ft_echo(t_com *command)
-{
-	int	i;
 
-	i = 0;
-	if (!command->args[1])
-	{
-		printf("\n");
-		return (0);
-	}
-	if (!ft_strncmp(command->args[1], "-n", 3))
-		i = 2;
-	else
-		i = 1;
-	while (command->args[i])
-	{
-		printf("%s", command->args[i]);
-		i++;
-		if (command->args[i])
-			printf(" ");
-	}
-	if (ft_strncmp(command->args[1], "-n", 3))
-		printf("\n");
-	return (0);
-}
 
 int	ft_env(t_data *data)
 {
@@ -91,10 +67,30 @@ int	cmd_is_builtin_2(char *command)
 	return (0);
 }
 
-int	exec_builtin(t_com *command, t_data *data)
+int	exec_builtin_in_process(t_com *command, t_data *data)
 {
+	int	status;
+
 	if (!ft_strncmp(command->args[0], "exit", 5))
 		return (ft_exit(command, data));
+	else
+	{
+		global.g_pid = fork();
+		if (global.g_pid == 0)
+		{
+			exit (exec_builtin(command, data));
+		}
+		else
+		{
+			waitpid(global.g_pid, &status, 0);
+			return (WEXITSTATUS(status));
+		}
+	}
+	return (0);
+}
+
+int	exec_builtin(t_com *command, t_data *data)
+{
 	if (!ft_strncmp(command->args[0], "cd", 3))
 		return (ft_change_directory(command, data));
 	if (!ft_strncmp(command->args[0], "pwd", 4))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 09:28:44 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/03 18:49:05 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/04 20:07:39 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	exec_command(t_com *command, t_data *data)
 	if (!returnval && command->args[0] != NULL)
 	{
 		if (cmd_is_builtin(command))
-			returnval = exec_builtin(command, data);
+			returnval = exec_builtin_in_process(command, data);
 		else
 			returnval = exec_processus(command, data);
 	}
@@ -44,7 +44,7 @@ int	exec_processus(t_com *command, t_data *data)
 	char	**cmd;
 	char	*absolute_cmd;
 	int	status;
-	
+
 	cmd = command->args;
 	if (ft_strchr(cmd[0], '='))
 		return (0);
