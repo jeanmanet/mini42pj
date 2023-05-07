@@ -6,7 +6,7 @@
 /*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 09:28:44 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/04 20:07:39 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/07 13:37:03 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	exec_command(t_com *command, t_data *data)
 		else
 			returnval = exec_processus(command, data);
 	}
-	global.exit_code = returnval;
 	dup2(saved_stdin, STDIN_FILENO);
 	dup2(saved_stdout, STDOUT_FILENO);
 	if (command->cmd_input_mode == CMD_HERE_DOC)
@@ -43,7 +42,7 @@ int	exec_processus(t_com *command, t_data *data)
 {
 	char	**cmd;
 	char	*absolute_cmd;
-	int	status;
+	int		status;
 
 	cmd = command->args;
 	if (ft_strchr(cmd[0], '='))
@@ -51,18 +50,16 @@ int	exec_processus(t_com *command, t_data *data)
 	absolute_cmd = get_absolute_command(cmd[0], data->envp);
 	if (absolute_cmd)
 	{
-		global.g_pid = fork();
-		ft_signal_handler();
-		if (global.g_pid == 0)
+		g_global.pid = fork();
+		if (g_global.pid == 0)
 			execve(absolute_cmd, cmd, data->envp);
 		else
 		{
-			waitpid(global.g_pid, &status, 0);
+			while (waitpid(g_global.pid, &status, WNOHANG) == 0)
+				;
 			free(absolute_cmd);
 			return (WEXITSTATUS(status));
 		}
 	}
-	ft_signal_handler();
 	return (127);
 }
-

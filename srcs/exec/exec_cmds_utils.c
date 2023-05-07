@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmds_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 10:26:17 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/03 18:40:45 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/07 13:37:16 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*ft_absolute_path(char *cmd, const char *PATH)
 	char	*tmp;
 	char	*current_path;
 	char	*result;
-	int	i;
+	int		i;
 
 	i = 0;
 	paths = ft_split(PATH, ':');
@@ -69,7 +69,6 @@ char	*ft_absolute_path(char *cmd, const char *PATH)
 	free_tab_str_cmd(paths);
 	return (NULL);
 }
-
 
 char	*get_absolute_command(char	*arg, char **envp)
 {

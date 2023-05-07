@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/21 10:55:24 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/30 20:34:32 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/07 13:14:55 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	get_inquote_token(char *str)
 {
-	int	i;
+	int		i;
 	char	c;
 
 	i = 0;
@@ -79,19 +79,21 @@ void	get_token_type(t_token_node *token_list)
 t_token_node	*tokenizer(char *commandline)
 {
 	t_token_node	*token_list;
-	int		flag_len_zero = 1;
-	
+	int				flag_len_zero;
+
 	token_list = NULL;
+	flag_len_zero = 1;
 	tokenize_commandline(0, commandline, &token_list, &flag_len_zero);
 	get_token_type(token_list);
 	return (token_list);
 }
 
-void	tokenize_commandline(int start, char *commandline, t_token_node **token_list, int *flag_len_zero)
+void	tokenize_commandline(int start, char *commandline,
+t_token_node **token_list, int *flag_len_zero)
 {
 	size_t	len;
 	char	*temp;
-	
+
 	while (commandline[start])
 	{
 		len = get_next_token(&commandline[start]);
@@ -103,7 +105,8 @@ void	tokenize_commandline(int start, char *commandline, t_token_node **token_lis
 				temp = ft_substr(commandline, start, len);
 			else
 				temp = ft_substr(commandline, start + 1, len - 2);
-			add_token_node(token_list, temp, ft_lexing(commandline[start]), flag_len_zero);
+			add_token_node(token_list, temp,
+				ft_lexing(commandline[start]), flag_len_zero);
 			start += (int)len;
 			free(temp);
 		}

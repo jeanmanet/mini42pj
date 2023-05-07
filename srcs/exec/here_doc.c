@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 18:36:48 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/03 13:57:29 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/07 13:37:31 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,29 @@ int	open_here_docfile(void)
 	if (fd_here_doc == -1)
 	{
 		printf("Error, cannot create here_doc.tmp \n");
-                global.exit_code = 1;
+		g_global.exit_code = 1;
 		return (-1);
 	}
 	return (fd_here_doc);
+}
+
+int	make_here_doc_in_process(t_com *command)
+{
+	int	status;
+
+	signal(SIGINT, ft_signal_handler_here_doc);
+	signal(SIGQUIT, SIG_IGN);
+	g_global.pid = fork();
+	if (g_global.pid == 0)
+	{
+		make_here_doc(command);
+		exit(0);
+	}
+	else
+		while (waitpid(g_global.pid, &status, WNOHANG) == 0)
+			;
+	g_global.pid = 0;
+	return (WIFEXITED(status));
 }
 
 void	ft_make_here_doc(t_ast_node *node, t_data *data)
@@ -31,7 +50,7 @@ void	ft_make_here_doc(t_ast_node *node, t_data *data)
 	if (node->type == AST_CMD)
 	{
 		if (node->content->cmd->cmd_input_mode == CMD_HERE_DOC)
-			make_here_doc(node->content->cmd);
+			make_here_doc_in_process(node->content->cmd);
 	}
 	else
 	{
@@ -41,11 +60,12 @@ void	ft_make_here_doc(t_ast_node *node, t_data *data)
 		{
 			if (node->content->pipe->left->content->cmd->cmd_input_mode
 				== CMD_HERE_DOC)
-				make_here_doc(node->content->pipe->left->content->cmd);
+				make_here_doc_in_process
+					(node->content->pipe->left->content->cmd);
 		}
 		if (node->content->pipe->right->content->cmd->cmd_input_mode
 			== CMD_HERE_DOC)
-			make_here_doc(node->content->pipe->right->content->cmd);
+			make_here_doc_in_process(node->content->pipe->right->content->cmd);
 	}
 }
 
@@ -56,8 +76,6 @@ char	*readline_here_doc(char *prompt)
 
 	line = NULL;
 	temp = NULL;
-	signal(SIGINT, ft_signal_handler_here_doc);
-	signal(SIGQUIT, ft_signal_handler_here_doc);
 	temp = readline(prompt);
 	if (!temp)
 		return (NULL);
@@ -68,8 +86,8 @@ char	*readline_here_doc(char *prompt)
 
 int	make_here_doc(t_com *command)
 {
-	int     fd_here_doc;
-	char    *line;
+	int		fd_here_doc;
+	char	*line;
 
 	line = NULL;
 	fd_here_doc = open_here_docfile();
@@ -78,12 +96,12 @@ int	make_here_doc(t_com *command)
 	{
 		line = readline_here_doc("here_doc > ");
 		if (!line)
-			break;
+			break ;
 		if (ft_strlen(line) == ft_strlen(command->here_doc_limiter) + 1)
 		{
 			if (ft_strncmp(line, command->here_doc_limiter,
 					ft_strlen(line) - 1) == 0)
-				break;
+				break ;
 		}
 		ft_putstr_fd(line, fd_here_doc);
 		free(line);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 13:46:07 by ory               #+#    #+#             */
-/*   Updated: 2023/05/02 13:47:06 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/07 13:26:57 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_env_export(t_data *data)
 	int	i;
 
 	i = 0;
-	while(data->envp[i])
+	while (data->envp[i])
 	{
 		printf("declare -x %s\n", data->envp[i]);
 		i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_assignment_error.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:58:50 by ory               #+#    #+#             */
-/*   Updated: 2023/04/30 21:02:28 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/07 13:42:00 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	unexpected_var_assignment(t_data *data)
 	t_token_node	*list_token;
 
 	list_token = data->token_list;
-	while(list_token)
+	while (list_token)
 	{
 		if (list_token->type == T_ARG)
 		{
@@ -30,7 +30,7 @@ int	unexpected_var_assignment(t_data *data)
 					if (unexpected_char_in_name(list_token->token))
 					{
 						printf("%s: command not found\n", list_token->token);
-						global.exit_code = 127;
+						g_global.exit_code = 127;
 						return (1);
 					}
 				}
@@ -46,7 +46,7 @@ void	invalid_assignment(t_data *data)
 	t_token_node	*list_token;
 
 	list_token = data->token_list;
-	while(list_token)
+	while (list_token)
 	{
 		if (list_token->type == T_ARG)
 		{
@@ -59,16 +59,16 @@ void	invalid_assignment(t_data *data)
 
 int	unexpected_char_in_name(char *str)
 {
-	int	i;
+	int		i;
 	char	*name;
 
 	i = -1;
 	name = NULL;
-	if ((str[0] != '$' && !ft_isalpha(str[0]) ) || !ft_isalpha(str[0]))
+	if ((str[0] != '$' && !ft_isalpha(str[0])) || !ft_isalpha(str[0]))
 		return (1);
 	name = extract_name_in_assignment(str);
 	i = -1;
-	while(name[++i])
+	while (name[++i])
 	{
 		if ((!ft_isalnum(str[i]) && !ft_isalpha(str[i])) && (str[i] != '_'))
 		{

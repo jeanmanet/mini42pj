@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal_handler.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 09:31:12 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/03 18:51:09 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/07 12:40:48 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	handle_sigint(void)
 {
-	if(global.g_pid == 0)
+	if (g_global.in_prompt == 1)
 	{
-		global.exit_code = 1;
+		g_global.exit_code = 1;
 		printf("\e[2K");
 		rl_on_new_line();
 		rl_redisplay();
@@ -27,17 +27,19 @@ void	handle_sigint(void)
 	}
 	else
 	{
-		kill(global.g_pid, SIGINT);
-		global.g_pid = 0;
-		global.exit_code = 130;
-		printf("\n");
-		rl_on_new_line();
+		if (g_global.pid != 0)
+		{
+			g_global.pid = 0;
+			g_global.exit_code = 130;
+			printf("\n");
+			rl_on_new_line();
+		}
 	}
 }
 
 void	handle_sigquit(void)
 {
-	if (global.g_pid == 0)
+	if (g_global.in_prompt == 1)
 	{
 		printf("\e[2K");
 		rl_on_new_line();
@@ -45,11 +47,13 @@ void	handle_sigquit(void)
 	}
 	else
 	{
-		kill(global.g_pid, SIGINT);
-		global.g_pid = 0;
-		global.exit_code = 131;
-		printf("Quit: 3\n");
-		rl_on_new_line();
+		if (g_global.pid != 0)
+		{
+			g_global.pid = 0;
+			g_global.exit_code = 131;
+			printf("Quit: 3\n");
+			rl_on_new_line();
+		}
 	}
 }
 
@@ -72,20 +76,14 @@ void	ft_signal_handler(void)
 
 void	ft_signal_handler_here_doc(int signal)
 {
-	if (signal == SIGINT)
+	if (g_global.pid == 0)
 	{
-		global.fd_here_doc = 1;
-		printf("\e[2K");
-		rl_on_new_line();
-		rl_redisplay();
+		if (signal == SIGINT)
+			exit(0);
 	}
-	else if (signal == SIGQUIT)
+	else
 	{
-		global.fd_here_doc = 1;
-		printf("\e[2K");
-		rl_on_new_line();
-		rl_redisplay();
+		g_global.exit_code = 1;
+		printf("\n");
 	}
 }
-
- 

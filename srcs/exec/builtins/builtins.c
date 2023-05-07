@@ -6,20 +6,18 @@
 /*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 11:47:39 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/04 20:08:58 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/07 13:34:59 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
-
-
 
 int	ft_env(t_data *data)
 {
 	int	i;
 
 	i = 0;
-	while(data->envp[i])
+	while (data->envp[i])
 	{
 		printf("%s\n", data->envp[i]);
 		i++;
@@ -75,14 +73,14 @@ int	exec_builtin_in_process(t_com *command, t_data *data)
 		return (ft_exit(command, data));
 	else
 	{
-		global.g_pid = fork();
-		if (global.g_pid == 0)
+		g_global.pid = fork();
+		if (g_global.pid == 0)
 		{
 			exit (exec_builtin(command, data));
 		}
 		else
 		{
-			waitpid(global.g_pid, &status, 0);
+			waitpid(g_global.pid, &status, 0);
 			return (WEXITSTATUS(status));
 		}
 	}

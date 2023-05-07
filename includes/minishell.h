@@ -6,7 +6,7 @@
 /*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 12:09:47 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/04 20:10:07 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/07 14:43:06 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,21 @@
 
 typedef struct s_lst_var
 {
-	char			*name;
-	char			*value;
-	int			flag_var_for_env;
-	struct	s_lst_var 	*previous;
-	struct	s_lst_var 	*next;
+	char				*name;
+	char				*value;
+	int					flag_var_for_env;
+	struct s_lst_var	*previous;
+	struct s_lst_var	*next;
 }	t_lst_var;
 
 typedef struct s_global
 {
-	int	g_pid;
-//     int 	g_pid_parent;
-//     int		g_pid_child;
-    int		fd_here_doc;
-    int		tmp_fd_here_doc;
-    int		exit_code;
+	int		pid;
+	int		exit_code;
+	int		in_prompt;
 }	t_global;
 
-extern t_global global;
+extern t_global				g_global;
 
 enum	e_lexer_type{
 	LEX_WORD,
@@ -86,8 +83,8 @@ typedef struct s_token_node{
 	char				*token;
 	int					q_state;
 	int					type;
-	int			flag_for_join_with_prev_token;
-	int			var_assignment;
+	int					flag_for_join_with_prev_token;
+	int					var_assignment;
 	struct s_token_node	*next;
 	struct s_token_node	*prev;
 }t_token_node;
@@ -134,7 +131,7 @@ typedef struct s_data
 	char			*command_line;
 	char			**envp;
 	int				endstatus;
-	t_lst_var 	*var_list;
+	t_lst_var		*var_list;
 	pid_t			pid;
 
 }	t_data;
@@ -142,7 +139,8 @@ typedef struct s_data
 char			*get_absolute_command(char	*arg, char **envp);
 char			**ft_import_envp(char **envp);
 char			*ft_getenv(char *name, t_data *data);
-int				ft_setenv(char *name, char *value, int overwrite, t_data *data, int flag_plus);
+int				ft_setenv(char *name, char *value, int overwrite,
+					t_data *data, int flag_plus);
 int				ft_change_directory(t_com *command, t_data *data);
 int				exec_command(t_com *command, t_data *data);
 int				exec_processus(t_com *command, t_data *data);
@@ -168,98 +166,99 @@ void			free_mem(t_data *data);
 t_union			*init_cmd_union(t_com *command);
 t_union			*init_pipe_union(void);
 void			rl_replace_line(const char *text, int clear_undo);
+void			handle_sigint(void);
+void			handle_sigquit(void);
+void			ft_sigaction(int signal);
+void			ft_signal_handler(void);
+void			ft_signal_handler_here_doc(int signal);
+void			lst_add_var(t_data *data, char *name, char *value, int flag);
+t_lst_var		*ft_var_lstnew(char *name, char *value, int flag);
+void			ft_var_lstadd_back(t_lst_var **lst, t_lst_var *new);
+t_lst_var		*ft_var_lstlast(t_lst_var *lst);
+void			delete_var_lst(t_lst_var **head, t_lst_var *to_delete);
+void			delete_var_in_lst(t_lst_var **head, char *name);
+void			delete_var_in_env(char *name, t_data *data);
+int				ft_env(t_data *data);
+int				ft_unset(t_com *command, t_data *data);
+int				unexpected_token(char *command_line);
+int				unexpected_token_2(t_data *data);
+int				is_only_compose_by_redir_char(char *str);
+int				str_is_only_this_char(char *str, int c);
+void			ft_command_line(t_data *data);
+char			*var_exist_outside_env(t_data *data, char *var_name);
+int				replace_var_by_value(t_data *data);
+void			add_var_in_list(t_data *data, char *str);
+char			*get_env_variable_value(char *var_name, t_data *data);
+void			ft_str_replace(char **str, int start, char *value);
+int				check_if_var_is_for_env(char *name, char *value,
+					t_data *data, int flag_plus);
+int				var_is_in_env(char *name, t_data *data);
+int				unexpected_char_in_name(char *str);
+char			*extract_value_in_assignment(char *str);
+char			*extract_name_in_assignment(char *str);
+char			*var_name(char *str, int flag);
+int				unexpected_var_assignment(t_data *data);
+void			invalid_assignment(t_data *data);
 
-void	handle_sigint(void);
-void	handle_sigquit(void);
-void	ft_sigaction(int signal);
-void	ft_signal_handler(void);
-void	ft_signal_handler_here_doc(int signal);
-
-void rl_replace_line (const char *, int);
-
-void lst_add_var(t_data *data, char *name, char *value, int flag);
-t_lst_var       *ft_var_lstnew(char *name, char *value, int flag);
-void	ft_var_lstadd_back(t_lst_var **lst, t_lst_var *new);
-t_lst_var	*ft_var_lstlast(t_lst_var *lst);
-void delete_var_lst(t_lst_var **head, t_lst_var *to_delete);
-void    delete_var_in_lst(t_lst_var **head, char *name);
-void	delete_var_in_env(char *name, t_data *data);
-
-
-int	ft_env(t_data *data);
-int	ft_unset(t_com *command, t_data *data);
-int	unexpected_token(char *command_line);
-int	unexpected_token_2(t_data *data);
-int	is_only_compose_by_redir_char(char *str);
-int	str_is_only_this_char(char *str, int c);
-
-void	ft_command_line(t_data *data);
-
-char	*var_exist_outside_env(t_data *data, char *var_name);
-int	replace_var_by_value(t_data *data);
-void	add_var_in_list(t_data *data, char *str);
-char 	*get_env_variable_value(char *var_name, t_data *data);
-void	ft_str_replace(char **str, int start, char *value);
-int	check_if_var_is_for_env(char *name, char *value, t_data *data, int flag_plus);
-int	var_is_in_env(char *name, t_data *data);
-int	unexpected_char_in_name(char *str);
-char	*extract_value_in_assignment(char *str);
-char	*extract_name_in_assignment(char *str);
-char	*var_name(char *str, int flag);
-int	unexpected_var_assignment(t_data *data);
-void	invalid_assignment(t_data *data);
-
-char	*replace_var(char *var, t_data *data);
-char* extract_vars(char* str, t_data *data);
-int	cmd_is_builtin_2(char *command);
-char	*str_is_cmd(char	*arg, char **envp);
-void set_env_var(char *name, char *value, t_data *data, int flag_plus);
-int get_name_and_index(char *str, char **name, int *flag_plus, int *i);
-int variable_length(char* str, int start);
-int	str_is_only_digit(char *str);
-int	ft_exit(t_com *command, t_data *data);
-void            ft_make_here_doc(t_ast_node *node, t_data *data);
-
-
-int	ft_setenv_add(int i, char *name, char *value, t_data *data);
-char	*readline_here_doc(char *prompt);
-int	make_here_doc(t_com *command);
-void	tokenize_commandline(int start, char *commandline, t_token_node **token_list, int *flag_len_zero);
-int	check_for_unexpected_tokens(t_token_node *token_list);
-t_token_node	*init_token_node(char *token, int flag_for_join_with_prev_token);
-int	get_flag_for_join_with_prev_token(t_token_node **list_head, int *flag_len_zero);
-void    get_var(char *str, int *i, char **result, t_data *data);
-void var_assignment(t_data *data);
-void	export_var_assignment(char *name, char *arg, t_data *data);
-void	var_already_outside_env(char *name, char *value, t_data *data);
-void export_var(char *arg, t_data *data);
-void	make_new_env(char **new_envp, char **envp, char *name_with_equal);
-void	check_exit_args(t_com *command, t_data *data);
-int	ft_exit(t_com *command, t_data *data);
-void	unset_variable(char *name, t_data *data);
-int	execute_both_pipe_nodes(t_pipe *pipe, int pipe_fd[2], int *pid2, t_data *data);
-void	print_error(char *str, int error);
-void	ft_add_var(t_data *data);
-int	execute_right_node(t_ast_node *right, int *pipe_fd, t_data *data);
-int	execute_left_node(t_ast_node *left, int *pipe_fd, t_data *data);
-int	execute_pipe_node(t_ast_node *node, t_data *data);
-int	execute_cmd_node(t_ast_node *node, t_data *data);
-int	execute_both_pipe_nodes(t_pipe *pipe, int pipe_fd[2], int *pid2, t_data *data);
-int	execute_ast(t_data *data);
-void	join_var_was_splited_in_tokenizer(t_data *data);
-char    *append_string(char* str1, char* str2);
-int	ft_exit(t_com *command, t_data *data);
-void	check_exit_args(t_com *command, t_data *data);
-int	str_is_only_digit(char *str);
-int	ft_export(t_com *command, t_data *data);
-void    export_var(char *arg, t_data *data);
-void	export_var_assignment(char *name, char *arg, t_data *data);
-void	var_already_outside_env(char *name, char *value, t_data *data);
-char	*var_name(char *str, int flag);
-void	ft_env_export(t_data *data);
-int	check_cmdline(char *cmdline);
-int	cmdline_is_only_spaces(char *cmdline);
-int exec_builtin_in_process(t_com *command, t_data *data);
-int	ft_echo(t_com *command);
+char			*replace_var(char *var, t_data *data);
+char			*extract_vars(char *str, t_data *data);
+int				cmd_is_builtin_2(char *command);
+char			*str_is_cmd(char	*arg, char **envp);
+void			set_env_var(char *name, char *value, t_data *data,
+					int flag_plus);
+int				get_name_and_index(char *str, char **name,
+					int *flag_plus, int *i);
+int				variable_length(char *str, int start);
+int				str_is_only_digit(char *str);
+int				ft_exit(t_com *command, t_data *data);
+void			ft_make_here_doc(t_ast_node *node, t_data *data);
+int				ft_setenv_add(int i, char *name, char *value, t_data *data);
+char			*readline_here_doc(char *prompt);
+int				make_here_doc(t_com *command);
+void			tokenize_commandline(int start, char *commandline,
+					t_token_node **token_list, int *flag_len_zero);
+int				check_for_unexpected_tokens(t_token_node *token_list);
+t_token_node	*init_token_node(char *token,
+					int flag_for_join_with_prev_token);
+int				get_flag_for_join_with_prev_token(t_token_node **list_head,
+					int *flag_len_zero);
+void			get_var(char *str, int *i, char **result, t_data *data);
+void			var_assignment(t_data *data);
+void			export_var_assignment(char *name, char *arg, t_data *data);
+void			var_already_outside_env(char *name, char *value, t_data *data);
+void			export_var(char *arg, t_data *data);
+void			make_new_env(char **new_envp, char **envp,
+					char *name_with_equal);
+void			check_exit_args(t_com *command, t_data *data);
+int				ft_exit(t_com *command, t_data *data);
+void			unset_variable(char *name, t_data *data);
+int				execute_both_pipe_nodes(t_pipe *pipe, int pipe_fd[2],
+					int *pid2, t_data *data);
+void			print_error(char *str, int error);
+void			ft_add_var(t_data *data);
+int				execute_right_node(t_ast_node *right, int *pipe_fd,
+					t_data *data);
+int				execute_left_node(t_ast_node *left, int *pipe_fd, t_data *data);
+int				execute_pipe_node(t_ast_node *node, t_data *data);
+int				execute_cmd_node(t_ast_node *node, t_data *data);
+int				execute_both_pipe_nodes(t_pipe *pipe, int pipe_fd[2],
+					int *pid2, t_data *data);
+int				execute_ast(t_data *data);
+void			join_var_was_splited_in_tokenizer(t_data *data);
+char			*append_string(char *str1, char *str2);
+int				ft_exit(t_com *command, t_data *data);
+void			check_exit_args(t_com *command, t_data *data);
+int				str_is_only_digit(char *str);
+int				ft_export(t_com *command, t_data *data);
+void			export_var(char *arg, t_data *data);
+void			export_var_assignment(char *name, char *arg, t_data *data);
+void			var_already_outside_env(char *name, char *value, t_data *data);
+char			*var_name(char *str, int flag);
+void			ft_env_export(t_data *data);
+int				check_cmdline(char *cmdline);
+int				cmdline_is_only_spaces(char *cmdline);
+int				exec_builtin_in_process(t_com *command, t_data *data);
+int				ft_echo(t_com *command);
+void			ft_exit_no_readline(void);
 
 #endif

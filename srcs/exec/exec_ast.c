@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 14:05:35 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/03 18:49:48 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/07 13:11:36 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	execute_cmd_node(t_ast_node *node, t_data *data)
 {
 	int	returnval;
-	
+
 	returnval = exec_command(node->content->cmd, data);
 	return (returnval);
 }
@@ -47,21 +47,21 @@ int	execute_right_node(t_ast_node *right, int *pipe_fd, t_data *data)
 
 int	execute_pipe_node(t_ast_node *node, t_data *data)
 {
-	int	pipe_fd[2];
-	int	ret;
+	int		pipe_fd[2];
+	int		ret;
 	pid_t	pid;
 
 	if (pipe(pipe_fd) == -1)
 	{
 		perror("Pipe");
-		global.exit_code = 1;
+		g_global.exit_code = 1;
 		return (-1);
 	}
 	pid = fork();
 	if (pid == -1)
 	{
 		perror("Fork");
-		global.exit_code = 1;
+		g_global.exit_code = 1;
 		return (-1);
 	}
 	else if (pid == 0)
@@ -69,19 +69,28 @@ int	execute_pipe_node(t_ast_node *node, t_data *data)
 	ret = execute_right_node(node->content->pipe->right, pipe_fd, data);
 	close(pipe_fd[0]);
 	close(pipe_fd[1]);
-	waitpid(pid, NULL, 0);
+	while (waitpid(pid, NULL, 0) == 0)
+		;
 	return (ret);
 }
 
 int	execute_ast(t_data *data)
 {
+	int	ret;
+
+	ret = 0;
 	if (data->commands_tree->root)
 	{
 		ft_make_here_doc(data->commands_tree->root, data);
-		if (data->commands_tree->root->type == AST_CMD)
-			return (execute_cmd_node(data->commands_tree->root, data));
-		else
-			return (execute_pipe_node(data->commands_tree->root, data));
+		if (g_global.exit_code == 0)
+		{
+			if (data->commands_tree->root->type == AST_CMD)
+				ret = execute_cmd_node(data->commands_tree->root, data);
+			else
+				ret = execute_pipe_node(data->commands_tree->root, data);
+		}
 	}
-	return (0);
+	if (g_global.exit_code == 0)
+		g_global.exit_code = ret;
+	return (ret);
 }

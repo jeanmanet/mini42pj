@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_node.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:36:14 by ory               #+#    #+#             */
-/*   Updated: 2023/04/30 20:37:18 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/07 13:24:09 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ t_token_node	*init_token_node(char *token, int flag_for_join_with_prev_token)
 	return (new_node);
 }
 
-t_token_node	*create_token_node(char *token, int state, int flag_for_join_with_prev_token)
+t_token_node	*create_token_node(char *token, int state,
+	int flag_for_join_with_prev_token)
 {
 	t_token_node	*new_node;
 
@@ -50,13 +51,15 @@ t_token_node	*create_token_node(char *token, int state, int flag_for_join_with_p
 	return (new_node);
 }
 
-void	add_token_node(t_token_node **list_head, char *token, int state, int *flag_len_zero)
+void	add_token_node(t_token_node **list_head,
+	char *token, int state, int *flag_len_zero)
 {
 	t_token_node	*new_node;
 	t_token_node	*current_node;
-	int		flag_for_join_with_prev_token;
+	int				flag_for_join_with_prev_token;
 
-	flag_for_join_with_prev_token = get_flag_for_join_with_prev_token(list_head, flag_len_zero);
+	flag_for_join_with_prev_token = \
+		get_flag_for_join_with_prev_token(list_head, flag_len_zero);
 	new_node = create_token_node(token, state, flag_for_join_with_prev_token);
 	if (*flag_len_zero == 0)
 		*flag_len_zero = 1;
@@ -72,21 +75,20 @@ void	add_token_node(t_token_node **list_head, char *token, int state, int *flag_
 	new_node->prev = current_node;
 }
 
-void delete_token_node(t_token_node **node)
+void	delete_token_node(t_token_node **node)
 {
-	t_token_node	*prev_node;
-    	t_token_node	*next_node;
+	t_token_node		*prev_node;
+	t_token_node		*next_node;
 
-    	if (*node == NULL)
-    	    return;
-    	prev_node = (*node)->prev;
-    	next_node = (*node)->next;
-    	if (prev_node != NULL)
-    	    prev_node->next = next_node;
-    	if (next_node != NULL)
-    	    next_node->prev = prev_node;
-    	free((*node)->token);
-    	free(*node);
-    	*node = NULL;
+	if (*node == NULL)
+		return ;
+	prev_node = (*node)->prev;
+	next_node = (*node)->next;
+	if (prev_node != NULL)
+		prev_node->next = next_node;
+	if (next_node != NULL)
+		next_node->prev = prev_node;
+	free((*node)->token);
+	free(*node);
+	*node = NULL;
 }
-

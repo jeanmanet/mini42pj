@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_ch_dir.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 08:52:39 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/30 17:23:46 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/07 12:39:34 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_change_directory(t_com *command, t_data *data)
 		else
 		{
 			printf("cd: %s: Not a directory\n", command->args[1]);
-			global.exit_code = 1;
+			g_global.exit_code = 1;
 			return (1);
 		}
 	}

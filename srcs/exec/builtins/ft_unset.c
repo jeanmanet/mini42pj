@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:20:27 by ory               #+#    #+#             */
-/*   Updated: 2023/04/30 20:24:46 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/07 13:33:52 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,27 @@
 
 int	ft_unset(t_com *command, t_data *data)
 {
-	int	i;
+	int		i;
 	char	*name;
 
 	i = 1;
-	while(command->args[i])
+	while (command->args[i])
 	{
 		if (ft_ischarset(command->args[i], '='))
 		{
 			printf("unset: `%s': not a valid identifier\n", command->args[i]);
-			global.exit_code = 1;
+			g_global.exit_code = 1;
 		}
 		name = var_name(command->args[i], 0);
 		if (name == NULL)
-        	{
-        	    i++;
-        	    continue;
-        	}
+		{
+			i++;
+			continue ;
+		}
 		if (name && (ft_ischarset(name, '+')))
 		{
 			printf("unset: `%s': not a valid identifier\n", command->args[i]);
-			global.exit_code = 1;
+			g_global.exit_code = 1;
 		}
 		unset_variable(name, data);
 		i++;
@@ -47,7 +47,8 @@ void	unset_variable(char *name, t_data *data)
 	char	*value;
 
 	value = NULL;
-	if (name && (value = var_exist_outside_env(data, name)))
+	value = var_exist_outside_env(data, name);
+	if (name && value)
 		delete_var_in_lst(&data->var_list, name);
 	if (name && var_is_in_env(name, data))
 		delete_var_in_env(name, data);
@@ -60,12 +61,12 @@ void	unset_variable(char *name, t_data *data)
 void	delete_var_in_env(char *name, t_data *data)
 {
 	char	*name_with_equal;
-	int	i;
+	int		i;
 	char	**new_envp;
 
 	i = 0;
 	name_with_equal = ft_strjoin(name, "=");
-	while(data->envp[i])
+	while (data->envp[i])
 		i++;
 	new_envp = malloc(sizeof(char *) * (i + 2));
 	if (!new_envp)
@@ -81,19 +82,19 @@ void	delete_var_in_env(char *name, t_data *data)
 
 void	make_new_env(char **new_envp, char **envp, char *name_with_equal)
 {
-    	int	i;
-    	int	j;
+	int	i;
+	int	j;
 
-    	i = 0,
-    	j = 0;
-    	while (envp[i])
-    	{
-    	    if (ft_strncmp(envp[i], name_with_equal, ft_strlen(name_with_equal)))
+	i = 0;
+	j = 0;
+	while (envp[i])
+	{
+		if (ft_strncmp(envp[i], name_with_equal, ft_strlen(name_with_equal)))
 		{
-    	        new_envp[j] = ft_strdup(envp[i]);
-    	        j++;
-    	    }
-    	    i++;
-    	}
-    	new_envp[j] = NULL;
+			new_envp[j] = ft_strdup(envp[i]);
+			j++;
+		}
+		i++;
+	}
+	new_envp[j] = NULL;
 }

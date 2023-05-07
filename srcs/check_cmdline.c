@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_cmdline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/02 16:49:22 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/02 17:38:14 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/07 13:58:37 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int	check_cmdline(char *cmdline)
 	if (!check_quotes(cmdline))
 		ret = -1;
 	if (cmdline_is_only_spaces(cmdline))
+		ret = -1;
+	if (unexpected_token(cmdline))
 		ret = -1;
 	return (ret);
 }

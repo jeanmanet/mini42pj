@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mem_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/07 09:51:45 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/30 20:44:42 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/07 13:56:02 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,16 @@ void	free_pipe_node(t_ast_node	*pipe_node)
 
 void	free_ast(t_ast *ast_tree)
 {
-    if (ast_tree == NULL)
-        return;
-    if (ast_tree->root != NULL)
-    {
-        if (ast_tree->root->type == AST_CMD)
-            free_cmd_node(ast_tree->root);
-	else
-            free_pipe_node(ast_tree->root);
-        ast_tree->root = NULL;
-    }
+	if (ast_tree == NULL)
+		return ;
+	if (ast_tree->root != NULL)
+	{
+		if (ast_tree->root->type == AST_CMD)
+			free_cmd_node(ast_tree->root);
+		else
+			free_pipe_node(ast_tree->root);
+		ast_tree->root = NULL;
+	}
 }
 
 void	free_mem(t_data *data)

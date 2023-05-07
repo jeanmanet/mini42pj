@@ -3,42 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 22:03:37 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/03 18:51:24 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/07 13:59:37 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-t_global global;
+t_global	g_global;
 
 void	prompt(t_data *data)
 {
 	ft_signal_handler();
+	g_global.in_prompt = 1;
 	data->command_line = readline("minishell > ");
+	g_global.in_prompt = 0;
 	add_history(data->command_line);
 	if (data->command_line)
 	{
+		g_global.exit_code = 0;
 		ft_command_line(data);
-		if (global.g_pid != 0)
+		if (g_global.pid != 0)
 		{
-			kill(global.g_pid, SIGINT);
-			global.g_pid = 0;
+			kill(g_global.pid, SIGINT);
+			g_global.pid = 0;
 		}
 	}
 	else
-	{
-		printf("exit\n");
-		system("leaks minishell");
-		exit(0);
-	}
+		ft_exit_no_readline();
 }
 
 void	ft_command_line(t_data *data)
 {
-	if (!check_cmdline(data->command_line) && !unexpected_token(data->command_line))
+	if (!check_cmdline(data->command_line))
 	{
 		data->token_list = tokenizer(data->command_line);
 		if (!unexpected_token_2(data))
@@ -58,8 +57,8 @@ t_data	*data_init(char **envp)
 {
 	t_data	*data;
 
-	global.g_pid = 0;
-	global.exit_code = 0;
+	g_global.pid = 0;
+	g_global.exit_code = 0;
 	data = malloc(sizeof(*data));
 	if (!data)
 		ft_exit_error("Memory allocation error \n");

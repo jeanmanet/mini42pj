@@ -3,23 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   env_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:55:01 by ory               #+#    #+#             */
-/*   Updated: 2023/04/30 20:56:15 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/07 13:40:55 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	check_if_var_is_for_env(char *name, char *value, t_data *data, int flag_plus)
+int	check_if_var_is_for_env(char *name, char *value,
+	t_data *data, int flag_plus)
 {
 	t_lst_var	*tmp;
 	char		*tmp_str;
 	char		*str;
 
 	tmp = data->var_list;
-	while(tmp)
+	while (tmp)
 	{
 		if (ft_strcmp(tmp->name, name) == 0 && tmp->flag_var_for_env == 1)
 		{
@@ -43,19 +44,19 @@ int	check_if_var_is_for_env(char *name, char *value, t_data *data, int flag_plus
 
 void	set_env_var(char *name, char *value, t_data *data, int flag_plus)
 {
-    	char	*tmp_str;
-    	char	*str;
+	char	*tmp_str;
+	char	*str;
 
-    	tmp_str = ft_strjoin(name, "=");
-    	str = ft_strjoin(tmp_str, value);
-    	ft_setenv(name, str, 1, data, flag_plus);
-    	free(tmp_str);
-    	free(str);
+	tmp_str = ft_strjoin(name, "=");
+	str = ft_strjoin(tmp_str, value);
+	ft_setenv(name, str, 1, data, flag_plus);
+	free(tmp_str);
+	free(str);
 }
 
 int	var_is_in_env(char *name, t_data *data)
 {
-	int	i;
+	int		i;
 	char	*name_with_equal;
 	char	*new_name;
 

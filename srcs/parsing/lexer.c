@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 19:06:37 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/14 22:04:48 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/07 13:24:21 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	str_is_only_this_char(char *str, int c)
 	i = 0;
 	match = 0;
 	len = ft_strlen(str);
-	while(str[i])
+	while (str[i])
 	{
 		if (str[i] == c)
 			match++;

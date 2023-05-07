@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_functions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 09:17:31 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/30 20:06:01 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/07 13:53:55 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	ft_addtoenv(char *value, t_data *data)
 	i++;
 	newenv[i] = NULL;
 	i = -1;
-	while(data->envp[++i])
+	while (data->envp[++i])
 		free(data->envp[i]);
 	free(data->envp);
 	data->envp = newenv;
@@ -81,7 +81,8 @@ int	ft_setenv_add(int i, char *name, char *value, t_data *data)
 	char	*old_value;
 	char	*value_if_flag;
 
-	new_value = ft_substr(value, ft_strlen(name) + 1, ft_strlen(value) - ft_strlen(name) - 1);
+	new_value = ft_substr(value, ft_strlen(name) + 1,
+			ft_strlen(value) - ft_strlen(name) - 1);
 	old_value = ft_strdup(data->envp[i]);
 	value_if_flag = ft_strjoin(old_value, new_value);
 	free(data->envp[i]);
@@ -92,7 +93,8 @@ int	ft_setenv_add(int i, char *name, char *value, t_data *data)
 	return (0);
 }
 
-int	ft_setenv(char *name, char *value, int overwrite, t_data *data, int flag_plus)
+int	ft_setenv(char *name, char *value, int overwrite,
+	t_data *data, int flag_plus)
 {
 	int	i;
 

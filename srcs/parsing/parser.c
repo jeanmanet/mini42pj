@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 12:26:37 by jmanet            #+#    #+#             */
-/*   Updated: 2023/04/30 00:05:53 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/07 13:21:38 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_com	*current_command_init(t_token_node *token_list)
 {
 	t_com	*cmd;
 	char	**args;
-	int	i;
+	int		i;
 
 	i = 0;
 	while (token_list && token_list->type != T_PIPE)
@@ -70,7 +70,7 @@ int	get_openfile_type(char *token)
 t_com	*get_command_node(t_token_node *token_list)
 {
 	t_com	*command;
-	int	i;
+	int		i;
 
 	i = 0;
 	command = current_command_init(token_list);
@@ -98,7 +98,7 @@ t_com	*get_command_node(t_token_node *token_list)
 
 void	parse_token_list(t_data *data)
 {
-	t_com		*current_command;
+	t_com			*current_command;
 	t_token_node	*token_list_head;
 
 	token_list_head = data->token_list;
