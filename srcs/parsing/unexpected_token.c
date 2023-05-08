@@ -6,7 +6,7 @@
 /*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:34:02 by ory               #+#    #+#             */
-/*   Updated: 2023/05/07 14:05:56 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/08 10:20:13 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,26 +40,40 @@ int	unexpected_token_2(t_data *data)
 	return (return_val);
 }
 
+int	tokens_are_redir(t_token_node *token1, t_token_node *token2)
+{
+	if ((token1->type == 1 || token1->type == 2
+			|| token1->type == 4) && (token2->type == 1 || token2->type == 2
+			|| token2->type == 4))
+		return (1);
+	else
+		return (0);
+}
+
+void	print_error_unexpected_token(char *str)
+{
+	printf("syntax error: unexpected token `%s'\n", str);
+}
+
 int	check_for_unexpected_tokens(t_token_node *token_list)
 {
 	while (token_list && token_list->next)
 	{
-		if ((token_list->type == 1 || token_list->type == 2
-				|| token_list->type == 4) && (token_list->next->type == 1
-				|| token_list->next->type == 2 || token_list->next->type == 4))
+		if (tokens_are_redir(token_list, token_list->next))
 		{
 			if (!(token_list->type == 4 && token_list->next->type == 1))
 			{
-				if (((token_list->type == 1 || token_list->type == 2 || token_list->type == 4)) && is_only_compose_by_redir_char(token_list->token) && is_only_compose_by_redir_char(token_list->next->token))
+				if (tokens_are_redir(token_list, token_list->next)
+					&& is_only_compose_by_redir_char(token_list->token)
+					&& is_only_compose_by_redir_char(token_list->next->token))
 				{
 					if (token_list->type == 1 && token_list->next->type == 2)
 					{
 						token_list = token_list->next;
 						continue ;
 					}
-					printf("syntax error: unexpected token `%s'\n",
-						token_list->next->token);
-		g_global.exit_code = 258;
+					print_error_unexpected_token(token_list->next->token);
+					g_global.exit_code = 258;
 					return (1);
 				}
 			}
