@@ -6,7 +6,7 @@
 /*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 11:47:39 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/07 13:34:59 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/08 10:14:50 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,30 +65,10 @@ int	cmd_is_builtin_2(char *command)
 	return (0);
 }
 
-int	exec_builtin_in_process(t_com *command, t_data *data)
-{
-	int	status;
-
-	if (!ft_strncmp(command->args[0], "exit", 5))
-		return (ft_exit(command, data));
-	else
-	{
-		g_global.pid = fork();
-		if (g_global.pid == 0)
-		{
-			exit (exec_builtin(command, data));
-		}
-		else
-		{
-			waitpid(g_global.pid, &status, 0);
-			return (WEXITSTATUS(status));
-		}
-	}
-	return (0);
-}
-
 int	exec_builtin(t_com *command, t_data *data)
 {
+	if (!ft_strncmp(command->args[0], "exit", 5))
+		return (ft_exit(command, data));
 	if (!ft_strncmp(command->args[0], "cd", 3))
 		return (ft_change_directory(command, data));
 	if (!ft_strncmp(command->args[0], "pwd", 4))
