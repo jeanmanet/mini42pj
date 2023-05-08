@@ -6,7 +6,7 @@
 /*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/21 15:56:56 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/07 14:25:13 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/08 10:48:05 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,9 @@
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	size_t	size;
-	size_t	i;
-	size_t	j;
 	char	*str;
 
-	i = 0;
-	j = 0;
-	if ((!s1 && !s2 ))
+	if ((!s1 && !s2))
 		return (NULL);
 	if (!s1)
 		return (ft_strdup(s2));
@@ -31,17 +27,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	str = malloc(sizeof(*str) * (size + 1));
 	if (!str)
 		return (NULL);
-	while (s1 && s1[i])
-	{
-		str[i] = s1[i];
-		i++;
-	}
-	while (s2 && s2[j])
-	{
-		str[i] = s2[j];
-		i++;
-		j++;
-	}
-	str[i] = '\0';
+	ft_strlcpy(str, s1, size + 1);
+	ft_strlcat(str, s2, size + 1);
 	return (str);
 }
