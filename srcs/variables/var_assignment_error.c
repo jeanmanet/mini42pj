@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_assignment_error.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:58:50 by ory               #+#    #+#             */
-/*   Updated: 2023/05/09 11:41:37 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/09 19:03:18 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	unexpected_var_assignment(t_data *data)
 					if (unexpected_char_in_name(list_token->token))
 					{
 						printf("%s: command not found\n", list_token->token);
-						g_global.exit_code = 127;
+						g_global.code_error = 127;
 						return (1);
 					}
 				}

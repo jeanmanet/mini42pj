@@ -6,7 +6,7 @@
 /*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 18:36:48 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/07 13:37:31 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/09 19:03:18 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	open_here_docfile(void)
 	if (fd_here_doc == -1)
 	{
 		printf("Error, cannot create here_doc.tmp \n");
-		g_global.exit_code = 1;
+		g_global.code_error = 1;
 		return (-1);
 	}
 	return (fd_here_doc);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 12:09:47 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/09 15:21:59 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/09 19:16:58 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_global
 {
 	int		pid;
 	int		exit_code;
+	int		code_error;
 	int		in_prompt;
 }	t_global;
 
@@ -145,9 +146,8 @@ typedef struct s_flag
 char			*get_absolute_command(char	*arg, char **envp);
 char			**ft_import_envp(char **envp);
 char			*ft_getenv(char *name, t_data *data);
-//int				ft_setenv(char *name, char *value, int overwrite,
-//					t_data *data, int flag_plus);
-int	ft_setenv(char *name, char *value, t_flag *setenv_flag, t_data *data);
+int				ft_setenv(char *name, char *value,
+					t_flag *setenv_flag, t_data *data);
 int				ft_change_directory(t_com *command, t_data *data);
 int				exec_command(t_com *command, t_data *data);
 int				exec_processus(t_com *command, t_data *data);
@@ -206,7 +206,6 @@ char			*extract_name_in_assignment(char *str);
 char			*var_name(char *str, int flag);
 int				unexpected_var_assignment(t_data *data);
 void			invalid_assignment(t_data *data);
-
 char			*replace_var(char *var, t_data *data);
 char			*extract_vars(char *str, t_data *data);
 int				cmd_is_builtin_2(char *command);
@@ -266,13 +265,14 @@ int				check_cmdline(char *cmdline);
 int				cmdline_is_only_spaces(char *cmdline);
 int				ft_echo(t_com *command);
 void			ft_exit_no_readline(void);
-int			cmd_not_found_in_list(t_data *data);
+int				cmd_not_found_in_list(t_data *data);
 void			add_var(t_data *data);
-int			cmd_not_found_in_list(t_data *data);
+int				cmd_not_found_in_list(t_data *data);
 void			var_assignment(t_data *data);
-int			arg_is_a_cmd(t_data *data, char *token);
-int	var_in_env(char *name, char *value, t_data *data, int flag_plus);
-int	update_var_for_env(char *name, char *value, 
-		t_data *data, t_flag *setenv_flag);
+int				arg_is_a_cmd(t_data *data, char *token);
+int				var_in_env(char *name, char *value, t_data *data,
+					int flag_plus);
+int				update_var_for_env(char *name, char *value,
+					t_data *data, t_flag *setenv_flag);
 
 #endif

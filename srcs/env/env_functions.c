@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_functions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 09:17:31 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/09 18:19:12 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/09 19:15:14 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	**ft_import_envp(char **envp)
 
 char	*ft_getenv(char *name, t_data *data)
 {
-	int	i;
+	int		i;
 	char	*ret;
 
 	i = 0;
@@ -124,4 +124,3 @@ int	ft_setenv(char *name, char *value, t_flag *setenv_flag, t_data *data)
 		return (0);
 	return (-1);
 }
-

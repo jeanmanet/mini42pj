@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:20:17 by ory               #+#    #+#             */
-/*   Updated: 2023/05/09 18:18:49 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/09 19:10:12 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	export_var_assignment(char *name, char *arg, t_data *data)
 	char	*value;
 	char	*tmp_value;
 	int		j;
-	t_flag		setenv_flag;
+	t_flag	setenv_flag;
 
 	setenv_flag.overwrite = 1;
 	setenv_flag.flag_plus = 0;
@@ -98,13 +98,13 @@ char	*var_name(char *str, int flag)
 		if (flag == 1)
 		{
 			printf("export: `%s': not a valid identifier\n", str);
-			g_global.exit_code = 1;
+			g_global.code_error = 1;
 			return (NULL);
 		}
 		if (flag == 0)
 		{
 			printf("unset: `%s': not a valid identifier\n", str);
-			g_global.exit_code = 1;
+			g_global.code_error = 1;
 			return (NULL);
 		}
 	}

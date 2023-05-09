@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:20:27 by ory               #+#    #+#             */
-/*   Updated: 2023/05/09 12:03:23 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/09 19:10:32 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ void	unset_invalid_id_ckeck(char *str, int c)
 	if (ft_ischarset(str, c))
 	{
 		printf("unset: `%s': not a valid identifier\n", str);
-		g_global.exit_code = 1;
+		g_global.code_error = 1;
 	}
 }
 
 int	ft_unset(t_com *command, t_data *data)
 {
 	int		i;
-	char		*name;
+	char	*name;
 
 	i = 1;
 	while (command->args[i])
@@ -39,7 +39,7 @@ int	ft_unset(t_com *command, t_data *data)
 		if (name && (ft_ischarset(name, '+')))
 		{
 			printf("unset: `%s': not a valid identifier\n", command->args[i]);
-			g_global.exit_code = 1;
+			g_global.code_error = 1;
 		}
 		unset_variable(name, data);
 		i++;

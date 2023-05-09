@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variables_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:06:28 by ory               #+#    #+#             */
-/*   Updated: 2023/05/09 12:15:18 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/09 19:14:58 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	cmd_not_found_in_list(t_data *data)
 	list_tokens = data->token_list;
 	while (list_tokens)
 	{
-		if (list_tokens->type == T_ARG && (list_tokens->q_state == 2 
-			&& !ft_ischarset(list_tokens->token, '=')))
+		if (list_tokens->type == T_ARG && (list_tokens->q_state == 2
+				&& !ft_ischarset(list_tokens->token, '=')))
 		{
 			if (!arg_is_a_cmd(data, list_tokens->token))
 			{
@@ -60,22 +60,22 @@ void	var_assignment(t_data *data)
 	t_token_node	*list_tokens;
 
 	list_tokens = data->token_list;
-	while(list_tokens)
+	while (list_tokens)
 	{
 		if (list_tokens->type == T_PIPE)
 			return ;
 		list_tokens = list_tokens->next;
 	}
 	list_tokens = data->token_list;
-	while(list_tokens)
+	while (list_tokens)
 	{
 		if (arg_is_a_cmd(data, list_tokens->token))
-			if (list_tokens->prev && list_tokens->prev->type != 1 
+			if (list_tokens->prev && list_tokens->prev->type != 1
 				&& list_tokens->prev->type != 2)
-				return;
+				return ;
 		if (list_tokens->type == T_ARG && list_tokens->token
-			&& ft_ischarset(list_tokens->token, '=') 
-				&& list_tokens->q_state == 2)
+			&& ft_ischarset(list_tokens->token, '=')
+			&& list_tokens->q_state == 2)
 			list_tokens->type = T_VAR;
 		list_tokens = list_tokens->next;
 	}
@@ -88,7 +88,7 @@ void	add_var(t_data *data)
 	t_token_node	*list_tokens;
 
 	list_tokens = data->token_list;
-	while(list_tokens)
+	while (list_tokens)
 	{
 		if (list_tokens->next == NULL || list_tokens->next->type < 4)
 		{

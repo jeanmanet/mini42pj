@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   env_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:55:01 by ory               #+#    #+#             */
-/*   Updated: 2023/05/09 18:13:36 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/09 19:13:43 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	update_var_for_env(char *name, char *value, 
+int	update_var_for_env(char *name, char *value,
 	t_data *data, t_flag *setenv_flag)
 {
 	t_lst_var	*tmp;

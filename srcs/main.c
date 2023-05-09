@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 22:03:37 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/09 17:37:37 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/09 19:03:18 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	prompt(t_data *data)
 	add_history(data->command_line);
 	if (data->command_line)
 	{
-		g_global.exit_code = 0;
+		g_global.code_error = 0;
 		ft_command_line(data);
 		if (g_global.pid != 0)
 		{
@@ -58,7 +58,7 @@ t_data	*data_init(char **envp)
 	t_data	*data;
 
 	g_global.pid = 0;
-	g_global.exit_code = 0;
+	g_global.code_error = 0;
 	data = malloc(sizeof(*data));
 	if (!data)
 		ft_exit_error("Memory allocation error \n");

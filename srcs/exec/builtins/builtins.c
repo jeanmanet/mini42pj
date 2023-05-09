@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 11:47:39 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/09 12:04:19 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/09 19:12:32 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,14 @@ int	ft_env(t_data *data)
 	return (1);
 }
 
+int	ft_pwd(void)
+{
+	char	pwd[256];
+
+	printf("%s\n", getcwd(pwd, 256));
+	return (0);
+}
+
 int	cmd_is_builtin(t_com *command)
 {
 	if (!ft_strncmp(command->args[0], "exit", 5))
@@ -32,7 +40,7 @@ int	cmd_is_builtin(t_com *command)
 	if (!ft_strncmp(command->args[0], "cd", 3))
 		return (1);
 	if (!ft_strncmp(command->args[0], "pwd", 4))
-		return (1);
+		return (ft_pwd());
 	if (!ft_strncmp(command->args[0], "echo", 5))
 		return (1);
 	if (!ft_strncmp(command->args[0], "export", 7))

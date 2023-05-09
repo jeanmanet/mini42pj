@@ -6,7 +6,7 @@
 /*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/23 10:00:26 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/07 12:39:34 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/09 19:03:18 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_redirect_input(t_com *command)
 	fd = open(command->infile, O_RDONLY, 0644);
 	if (fd == -1)
 	{
-		g_global.exit_code = 1;
+		g_global.code_error = 1;
 		write(2, strerror(errno), ft_strlen(strerror(errno)));
 		write(2, ": ", 2);
 		write(2, command->infile, ft_strlen(command->infile));
@@ -47,7 +47,7 @@ int	ft_redirect_output(t_com *command)
 		fd = open(command->outfile, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd == -1)
 	{
-		g_global.exit_code = 1;
+		g_global.code_error = 1;
 		write(2, strerror(errno), ft_strlen(strerror(errno)));
 		write(2, ": ", 2);
 		write(2, command->outfile, ft_strlen(command->outfile));

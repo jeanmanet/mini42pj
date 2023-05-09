@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variables.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 20:58:40 by ory               #+#    #+#             */
-/*   Updated: 2023/05/09 15:23:22 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/09 19:13:55 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ void	add_var_in_list(t_data *data, char *str)
 {
 	char	*name;
 	char	*value;
-	int	index;
-	int	i;
-	int	flag_plus;
+	int		index;
+	int		i;
+	int		flag_plus;
 
 	name = NULL;
 	value = NULL;

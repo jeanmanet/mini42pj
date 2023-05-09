@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_ast.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/10 14:05:35 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/09 18:19:30 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/09 19:06:42 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ int	execute_pipe_node(t_ast_node *node, t_data *data)
 	if (pipe(pipe_fd) == -1)
 	{
 		perror("Pipe");
-		g_global.exit_code = 1;
+		g_global.code_error = 1;
 		return (-1);
 	}
 	pid = fork();
 	if (pid == -1)
 	{
 		perror("Fork");
-		g_global.exit_code = 1;
+		g_global.code_error = 1;
 		return (-1);
 	}
 	else if (pid == 0)
@@ -82,7 +82,7 @@ int	execute_ast(t_data *data)
 	if (data->commands_tree->root)
 	{
 		ft_make_here_doc(data->commands_tree->root, data);
-		if (g_global.exit_code == 0)
+		if (g_global.code_error == 0)
 		{
 			if (data->commands_tree->root->type == AST_CMD)
 				ret = execute_cmd_node(data->commands_tree->root, data);
@@ -90,7 +90,9 @@ int	execute_ast(t_data *data)
 				ret = execute_pipe_node(data->commands_tree->root, data);
 		}
 	}
-	if (g_global.exit_code == 0)
+	if (g_global.code_error == 0)
 		g_global.exit_code = ret;
+	else
+		g_global.exit_code = g_global.code_error;
 	return (ret);
 }

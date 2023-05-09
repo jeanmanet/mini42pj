@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_ch_dir.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 08:52:39 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/09 18:16:16 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/09 19:13:18 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 void	update_pwd(char *pwd, char *arg, t_flag *setenv_flag, t_data *data)
 {
-	ft_setenv("OLDPWD", ft_strjoin("OLDPWD=", 
-		getcwd(pwd, 256)), setenv_flag, data);
+	ft_setenv("OLDPWD", ft_strjoin("OLDPWD=",
+			getcwd(pwd, 256)), setenv_flag, data);
 	chdir(arg);
 	ft_setenv("PWD", ft_strjoin("PWD=", getcwd(pwd, 256)), setenv_flag, data);
 }
 
 int	update_directory(char *arg, t_data *data, t_flag *setenv_flag)
 {
-	char	pwd[256];
-	struct	stat sb;
+	char		pwd[256];
+	struct stat	sb;
 
 	if (stat(arg, &sb) == 0)
 	{
@@ -35,7 +35,7 @@ int	update_directory(char *arg, t_data *data, t_flag *setenv_flag)
 		else
 		{
 			printf("cd: %s: Not a directory\n", arg);
-			g_global.exit_code = 1;
+			g_global.code_error = 1;
 			return (1);
 		}
 	}
