@@ -6,7 +6,7 @@
 /*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 09:31:12 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/09 19:05:35 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/09 19:50:47 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,8 @@ void	ft_signal_handler_here_doc(int signal)
 	}
 	else
 	{
-		g_global.code_error = 130;
+		g_global.code_error = 1;
 		printf("\n");
+		unlink(".here_doc.tmp");
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/28 18:36:48 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/09 19:03:18 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/09 19:50:59 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int	make_here_doc_in_process(t_com *command)
 
 	signal(SIGINT, ft_signal_handler_here_doc);
 	signal(SIGQUIT, SIG_IGN);
+	if (g_global.code_error == 1)
+		return (1);
 	g_global.pid = fork();
 	if (g_global.pid == 0)
 	{
