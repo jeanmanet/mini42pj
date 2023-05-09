@@ -3,40 +3,56 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_ch_dir.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 08:52:39 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/07 12:39:34 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/09 18:16:16 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-int	ft_change_directory(t_com *command, t_data *data)
+void	update_pwd(char *pwd, char *arg, t_flag *setenv_flag, t_data *data)
 {
-	char		pwd[256];
-	struct stat	sb;
+	ft_setenv("OLDPWD", ft_strjoin("OLDPWD=", 
+		getcwd(pwd, 256)), setenv_flag, data);
+	chdir(arg);
+	ft_setenv("PWD", ft_strjoin("PWD=", getcwd(pwd, 256)), setenv_flag, data);
+}
 
-	if (command->args[1] == NULL)
-		return (0);
-	if (stat(command->args[1], &sb) == 0)
+int	update_directory(char *arg, t_data *data, t_flag *setenv_flag)
+{
+	char	pwd[256];
+	struct	stat sb;
+
+	if (stat(arg, &sb) == 0)
 	{
 		if (S_ISDIR(sb.st_mode))
 		{
-			ft_setenv("OLDPWD", ft_strjoin("OLDPWD=",
-					getcwd(pwd, 256)), 1, data, 0);
-			chdir(command->args[1]);
-			ft_setenv("PWD", ft_strjoin("PWD=", getcwd(pwd, 256)), 1, data, 0);
+			update_pwd(pwd, arg, setenv_flag, data);
 			return (0);
 		}
 		else
 		{
-			printf("cd: %s: Not a directory\n", command->args[1]);
+			printf("cd: %s: Not a directory\n", arg);
 			g_global.exit_code = 1;
 			return (1);
 		}
 	}
 	else
-		printf("cd: %s: %s\n", command->args[1], strerror(errno));
-	return (1);
+	{
+		printf("cd: %s: %s\n", arg, strerror(errno));
+		return (1);
+	}
+}
+
+int	ft_change_directory(t_com *command, t_data *data)
+{
+	t_flag		setenv_flag;
+
+	setenv_flag.overwrite = 1;
+	setenv_flag.flag_plus = 0;
+	if (command->args[1] == NULL)
+		return (0);
+	return (update_directory(command->args[1], data, &setenv_flag));
 }

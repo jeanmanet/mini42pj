@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_functions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/26 09:17:31 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/07 13:53:55 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/09 18:19:12 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,16 @@ char	**ft_import_envp(char **envp)
 char	*ft_getenv(char *name, t_data *data)
 {
 	int	i;
+	char	*ret;
 
 	i = 0;
 	while (data->envp[i])
 	{
 		if (!ft_strncmp(data->envp[i], name, ft_strlen(name)))
-			return (ft_strdup(&data->envp[i][ft_strlen(name)]));
+		{
+			ret = ft_strdup(&data->envp[i][ft_strlen(name)]);
+			return (ret);
+		}
 		i++;
 	}
 	return (NULL);
@@ -93,8 +97,7 @@ int	ft_setenv_add(int i, char *name, char *value, t_data *data)
 	return (0);
 }
 
-int	ft_setenv(char *name, char *value, int overwrite,
-	t_data *data, int flag_plus)
+int	ft_setenv(char *name, char *value, t_flag *setenv_flag, t_data *data)
 {
 	int	i;
 
@@ -105,9 +108,9 @@ int	ft_setenv(char *name, char *value, int overwrite,
 	{
 		if (!ft_strncmp(data->envp[i], name, ft_strlen(name)))
 		{
-			if (overwrite == 1)
+			if (setenv_flag->overwrite == 1)
 			{
-				if (flag_plus)
+				if (setenv_flag->flag_plus)
 					return (ft_setenv_add(i, name, value, data));
 				free(data->envp[i]);
 				data->envp[i] = ft_strdup(value);
@@ -121,3 +124,4 @@ int	ft_setenv(char *name, char *value, int overwrite,
 		return (0);
 	return (-1);
 }
+

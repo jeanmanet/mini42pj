@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmds_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 10:26:17 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/07 13:37:16 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/09 11:44:12 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,13 +93,12 @@ char	*str_is_cmd(char	*arg, char **envp)
 	char	*cmd;
 	char	*path;
 
-	cmd = arg;
-	if (ft_ischarset(cmd, '='))
+	if (ft_ischarset(arg, '='))
 		return (NULL);
-	if (!access(cmd, X_OK))
-		return (ft_strdup(cmd));
+	if (!access(arg, X_OK))
+		return (ft_strdup(arg));
 	path = path_env(envp);
-	cmd = ft_absolute_path(cmd, path);
+	cmd = ft_absolute_path(arg, path);
 	free(path);
 	return (cmd);
 }

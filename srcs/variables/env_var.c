@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   env_var.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:55:01 by ory               #+#    #+#             */
-/*   Updated: 2023/05/07 13:40:55 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/09 18:13:36 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	check_if_var_is_for_env(char *name, char *value,
-	t_data *data, int flag_plus)
+int	update_var_for_env(char *name, char *value, 
+	t_data *data, t_flag *setenv_flag)
 {
 	t_lst_var	*tmp;
 	char		*tmp_str;
@@ -27,13 +27,20 @@ int	check_if_var_is_for_env(char *name, char *value,
 			delete_var_in_lst(&data->var_list, name);
 			tmp_str = ft_strjoin(name, "=");
 			str = ft_strjoin(tmp_str, value);
-			ft_setenv(name, str, 1, data, 0);
+			ft_setenv(name, str, setenv_flag, data);
 			free(tmp_str);
 			free(str);
 			return (1);
 		}
 		tmp = tmp->next;
 	}
+	if (var_in_env(name, value, data, setenv_flag->flag_plus))
+		return (1);
+	return (0);
+}
+
+int	var_in_env(char *name, char *value, t_data *data, int flag_plus)
+{
 	if (var_is_in_env(name, data))
 	{
 		set_env_var(name, value, data, flag_plus);
@@ -46,10 +53,13 @@ void	set_env_var(char *name, char *value, t_data *data, int flag_plus)
 {
 	char	*tmp_str;
 	char	*str;
+	t_flag	setenv_flag;
 
+	setenv_flag.overwrite = 1;
+	setenv_flag.flag_plus = flag_plus;
 	tmp_str = ft_strjoin(name, "=");
 	str = ft_strjoin(tmp_str, value);
-	ft_setenv(name, str, 1, data, flag_plus);
+	ft_setenv(name, str, &setenv_flag, data);
 	free(tmp_str);
 	free(str);
 }

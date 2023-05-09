@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variables_extract_and_replace.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 15:39:42 by ory               #+#    #+#             */
-/*   Updated: 2023/05/07 13:51:21 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/09 15:40:49 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	get_var(char *str, int *i, char **result, t_data *data)
 	if (str[*i + 1] && str[*i + 1] == '?')
 	{
 			var_value = ft_itoa(g_global.exit_code);
+			printf("exit code = %s\n", var_value);
 			var_lenght = 1;
 	}
 	else

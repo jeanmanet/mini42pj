@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 22:03:37 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/07 13:59:37 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/09 17:37:37 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	ft_command_line(t_data *data)
 		data->token_list = tokenizer(data->command_line);
 		if (!unexpected_token_2(data))
 		{
-			if (replace_var_by_value(data))
-				ft_add_var(data);
+			replace_var_by_value(data);
+			ft_add_var(data);
 			parse_token_list(data);
 			execute_ast(data);
 		}

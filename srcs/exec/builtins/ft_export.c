@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:20:17 by ory               #+#    #+#             */
-/*   Updated: 2023/05/07 13:29:29 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/09 18:18:49 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,16 @@ void	export_var_assignment(char *name, char *arg, t_data *data)
 {
 	char	*value;
 	char	*tmp_value;
-	int		flag_plus;
 	int		j;
+	t_flag		setenv_flag;
 
-	flag_plus = 0;
+	setenv_flag.overwrite = 1;
+	setenv_flag.flag_plus = 0;
 	j = 0;
 	while (arg[j])
 	{
 		if (arg[j] == '=' && arg[j - 1] == '+')
-			flag_plus = 2;
+			setenv_flag.flag_plus = 2;
 		j++;
 	}
 	value = extract_value_in_assignment(arg);
@@ -67,7 +68,7 @@ void	export_var_assignment(char *name, char *arg, t_data *data)
 	free(value);
 	value = ft_strjoin(name, tmp_value);
 	free(tmp_value);
-	ft_setenv(name, value, 1, data, flag_plus);
+	ft_setenv(name, value, &setenv_flag, data);
 	free(value);
 }
 
@@ -75,11 +76,14 @@ void	var_already_outside_env(char *name, char *value, t_data *data)
 {
 	char	*new_value;
 	char	*tmp_value;
+	t_flag	setenv_flag;
 
+	setenv_flag.overwrite = 0;
+	setenv_flag.overwrite = 0;
 	new_value = ft_strjoin(name, "=");
 	tmp_value = ft_strjoin(new_value, value);
 	free(new_value);
-	ft_setenv(name, tmp_value, 0, data, 0);
+	ft_setenv(name, tmp_value, &setenv_flag, data);
 	delete_var_in_lst(&data->var_list, name);
 	free(tmp_value);
 }

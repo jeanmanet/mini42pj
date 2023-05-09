@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variables.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 20:58:40 by ory               #+#    #+#             */
-/*   Updated: 2023/05/07 14:15:04 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/09 15:23:22 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,9 @@ void	add_var_in_list(t_data *data, char *str)
 {
 	char	*name;
 	char	*value;
-	int		index;
-	int		i;
-	int		flag_plus;
+	int	index;
+	int	i;
+	int	flag_plus;
 
 	name = NULL;
 	value = NULL;
@@ -68,47 +68,31 @@ int	get_name_and_index(char *str, char **name, int *flag_plus, int *i)
 	return (index);
 }
 
+int	arg_is_a_cmd(t_data *data, char *token)
+{
+	char	*cmd;
+
+	if (cmd_is_builtin_2(token))
+		return (1);
+	cmd = str_is_cmd(token, data->envp);
+	if (cmd)
+	{
+		free(cmd);
+		return (1);
+	}
+	return (0);
+}
+
 void	ft_add_var(t_data *data)
 {
 	t_token_node	*list_tokens;
-	char			*cmd;
 
 	list_tokens = data->token_list;
 	join_var_was_splited_in_tokenizer(data);
-	while (list_tokens)
-	{
-		if (cmd_is_builtin_2(list_tokens->token))
+	if (!ft_ischarset(list_tokens->token, '='))
+		if (arg_is_a_cmd(data, list_tokens->token))
 			return ;
-		cmd = str_is_cmd(list_tokens->token, data->envp);
-		if (cmd)
-		{
-			free(cmd);
-			return ;
-		}
-		list_tokens = list_tokens->next;
-	}
 	if (unexpected_var_assignment(data))
 		invalid_assignment(data);
 	var_assignment(data);
-}
-
-void	var_assignment(t_data *data)
-{
-	t_token_node	*list_tokens;
-
-	list_tokens = data->token_list;
-	while (list_tokens)
-	{
-		if (list_tokens->type == T_ARG && list_tokens->token
-			&& ft_ischarset(list_tokens->token, '='))
-		{
-			list_tokens->type = T_VAR;
-			if (list_tokens->next == NULL || list_tokens->next->type < 4)
-			{
-				if (list_tokens->var_assignment == 1)
-					add_var_in_list(data, list_tokens->token);
-			}
-		}
-		list_tokens = list_tokens->next;
-	}
 }

@@ -3,28 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:20:27 by ory               #+#    #+#             */
-/*   Updated: 2023/05/07 13:33:52 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/09 12:03:23 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
+void	unset_invalid_id_ckeck(char *str, int c)
+{
+	if (ft_ischarset(str, c))
+	{
+		printf("unset: `%s': not a valid identifier\n", str);
+		g_global.exit_code = 1;
+	}
+}
+
 int	ft_unset(t_com *command, t_data *data)
 {
 	int		i;
-	char	*name;
+	char		*name;
 
 	i = 1;
 	while (command->args[i])
 	{
-		if (ft_ischarset(command->args[i], '='))
-		{
-			printf("unset: `%s': not a valid identifier\n", command->args[i]);
-			g_global.exit_code = 1;
-		}
+		unset_invalid_id_ckeck(command->args[i], '=');
 		name = var_name(command->args[i], 0);
 		if (name == NULL)
 		{

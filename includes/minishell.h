@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 12:09:47 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/08 10:14:20 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/09 15:21:59 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,11 +136,18 @@ typedef struct s_data
 
 }	t_data;
 
+typedef struct s_flag
+{
+	int	overwrite;
+	int	flag_plus;
+}		t_flag;
+
 char			*get_absolute_command(char	*arg, char **envp);
 char			**ft_import_envp(char **envp);
 char			*ft_getenv(char *name, t_data *data);
-int				ft_setenv(char *name, char *value, int overwrite,
-					t_data *data, int flag_plus);
+//int				ft_setenv(char *name, char *value, int overwrite,
+//					t_data *data, int flag_plus);
+int	ft_setenv(char *name, char *value, t_flag *setenv_flag, t_data *data);
 int				ft_change_directory(t_com *command, t_data *data);
 int				exec_command(t_com *command, t_data *data);
 int				exec_processus(t_com *command, t_data *data);
@@ -259,5 +266,13 @@ int				check_cmdline(char *cmdline);
 int				cmdline_is_only_spaces(char *cmdline);
 int				ft_echo(t_com *command);
 void			ft_exit_no_readline(void);
+int			cmd_not_found_in_list(t_data *data);
+void			add_var(t_data *data);
+int			cmd_not_found_in_list(t_data *data);
+void			var_assignment(t_data *data);
+int			arg_is_a_cmd(t_data *data, char *token);
+int	var_in_env(char *name, char *value, t_data *data, int flag_plus);
+int	update_var_for_env(char *name, char *value, 
+		t_data *data, t_flag *setenv_flag);
 
 #endif
