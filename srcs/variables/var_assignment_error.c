@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_assignment_error.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:58:50 by ory               #+#    #+#             */
-/*   Updated: 2023/05/09 19:03:18 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/10 14:29:20 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@ int	unexpected_var_assignment(t_data *data)
 		{
 			if (list_token->token && ft_ischarset(list_token->token, '='))
 			{
-				if (list_token->token[ft_strlen(list_token->token) - 1] == '=')
-					return (1);
 				if ((list_token->next == NULL || list_token->next->type < 4))
 				{
 					if (unexpected_char_in_name(list_token->token))
