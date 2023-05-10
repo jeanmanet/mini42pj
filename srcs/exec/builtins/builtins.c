@@ -6,7 +6,7 @@
 /*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 11:47:39 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/10 09:33:48 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/10 09:36:51 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	exec_builtin(t_com *command, t_data *data)
 	if (!ft_strncmp(command->args[0], "cd", 3))
 		return (ft_change_directory(command, data));
 	if (!ft_strncmp(command->args[0], "pwd", 4))
-		printf("%s\n", getenv("PWD"));
+		return (ft_pwd());
 	if (!ft_strncmp(command->args[0], "echo", 5))
 		return (ft_echo(command));
 	if (!ft_strncmp(command->args[0], "export", 7))
