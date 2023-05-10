@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:50:44 by ory               #+#    #+#             */
-/*   Updated: 2023/05/10 13:54:55 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/10 15:51:14 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ char	*extract_value_in_assignment(char *str)
 		}
 	}
 	if (flag_plus)
+		index++;
+	while(str[index] && str[index] == ' ')
 		index++;
 	value = ft_substr(str, index, i - index);
 	return (value);

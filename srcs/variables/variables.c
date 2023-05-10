@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variables.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 20:58:40 by ory               #+#    #+#             */
-/*   Updated: 2023/05/09 19:13:55 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/10 15:50:28 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,10 @@ int	get_name_and_index(char *str, char **name, int *flag_plus, int *i)
 		}
 		(*i)++;
 	}
+	if (*flag_plus)
+		index++;
+	while(str[index] && str[index] == ' ')
+		index++;
 	return (index);
 }
 
