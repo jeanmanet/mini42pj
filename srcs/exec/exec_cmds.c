@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 09:28:44 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/09 17:40:14 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/10 10:14:46 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ int	exec_command(t_com *command, t_data *data)
 	return (returnval);
 }
 
+int	ft_perror(char *str)
+{
+	perror(str);
+	return (-1);
+}
+
 int	exec_processus(t_com *command, t_data *data)
 {
 	char	**cmd;
@@ -51,6 +57,8 @@ int	exec_processus(t_com *command, t_data *data)
 	if (absolute_cmd)
 	{
 		g_global.pid = fork();
+		if (g_global.pid == -1)
+			return (ft_perror("Fork"));
 		if (g_global.pid == 0)
 			execve(absolute_cmd, cmd, data->envp);
 		else
