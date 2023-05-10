@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variables_extract_and_replace_utils.c              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:50:44 by ory               #+#    #+#             */
-/*   Updated: 2023/05/07 13:45:37 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/10 13:54:55 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	variable_length(char *str, int start)
 	j = start + 1;
 	while (str[j])
 	{
-		if (str[j] == '$' || str[j] == '=' || str[j] == ':')
+		if (str[j] == '$' || str[j] == '=' || str[j] == ':' || str[j] == '\'')
 			break ;
 		len_var++;
 		j++;
