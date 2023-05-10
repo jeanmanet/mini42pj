@@ -6,7 +6,7 @@
 /*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 22:03:37 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/09 19:44:01 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/10 08:38:07 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ t_data	*data_init(char **envp)
 
 	g_global.pid = 0;
 	g_global.code_error = 0;
-	g_global.in_here_doc = 0;
 	data = malloc(sizeof(*data));
 	if (!data)
 		ft_exit_error("Memory allocation error \n");
