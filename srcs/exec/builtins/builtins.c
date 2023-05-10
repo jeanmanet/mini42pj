@@ -6,7 +6,7 @@
 /*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 11:47:39 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/09 19:12:32 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/10 09:33:48 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	cmd_is_builtin(t_com *command)
 	if (!ft_strncmp(command->args[0], "cd", 3))
 		return (1);
 	if (!ft_strncmp(command->args[0], "pwd", 4))
-		return (ft_pwd());
+		return (1);
 	if (!ft_strncmp(command->args[0], "echo", 5))
 		return (1);
 	if (!ft_strncmp(command->args[0], "export", 7))
