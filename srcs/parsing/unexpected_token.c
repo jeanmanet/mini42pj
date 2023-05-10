@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unexpected_token.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:34:02 by ory               #+#    #+#             */
-/*   Updated: 2023/05/09 19:08:45 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/10 10:34:47 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ int	check_for_unexpected_tokens(t_token_node *token_list)
 	{
 		if (tokens_are_redir(token_list, token_list->next))
 		{
-			if (!(token_list->type == 4 && token_list->next->type == 1))
+			if (!(token_list->type == 4 && token_list->next->type == 1)
+				&& !(token_list->type == 4 && token_list->next->type == 2))
 			{
 				if (tokens_are_redir(token_list, token_list->next)
 					&& is_only_compose_by_redir_char(token_list->token)
