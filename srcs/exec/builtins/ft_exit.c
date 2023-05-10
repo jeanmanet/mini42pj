@@ -6,7 +6,7 @@
 /*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:23:16 by ory               #+#    #+#             */
-/*   Updated: 2023/05/09 19:03:18 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/10 09:18:41 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	check_exit_args(t_com *command, t_data *data)
 	}
 	else if (!str_is_only_digit(command->args[1]))
 	{
-		printf("exit\nminishell: exit: %s: numeric argument \
-			required\n", command->args[1]);
+		printf("exit\nminishell: exit: %s: numeric argument required\n",
+			command->args[1]);
 		free_mem(data);
 		exit(255);
 	}
