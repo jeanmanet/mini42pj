@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmds_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 10:26:17 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/09 11:44:12 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/10 08:53:45 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	free_tab_str_cmd(char **str)
 	int	i;
 
 	i = 0;
+	if (!str)
+		return ;
 	if (!str[0] && str[1])
 		i++;
 	while (str[i])
