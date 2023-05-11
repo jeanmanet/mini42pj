@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_ch_dir.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 08:52:39 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/09 19:13:18 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/12 00:53:29 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,16 @@
 
 void	update_pwd(char *pwd, char *arg, t_flag *setenv_flag, t_data *data)
 {
-	ft_setenv("OLDPWD", ft_strjoin("OLDPWD=",
-			getcwd(pwd, 256)), setenv_flag, data);
+	char	*oldpwd_str;
+	char	*pwd_str;
+
+	oldpwd_str = ft_strjoin("OLDPWD=", getcwd(pwd, 256));
+	pwd_str = ft_strjoin("PWD=", getcwd(pwd, 256));
+	ft_setenv("OLDPWD", oldpwd_str, setenv_flag, data);
 	chdir(arg);
-	ft_setenv("PWD", ft_strjoin("PWD=", getcwd(pwd, 256)), setenv_flag, data);
+	ft_setenv("PWD", pwd_str, setenv_flag, data);
+	free(oldpwd_str);
+	free(pwd_str);
 }
 
 int	update_directory(char *arg, t_data *data, t_flag *setenv_flag)
