@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/06 20:58:40 by ory               #+#    #+#             */
-/*   Updated: 2023/05/10 15:50:28 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/11 16:42:48 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	ft_add_var(t_data *data)
 
 	list_tokens = data->token_list;
 	join_var_was_splited_in_tokenizer(data);
-	if (!ft_ischarset(list_tokens->token, '='))
+	if (list_tokens->token && !ft_ischarset(list_tokens->token, '='))
 		if (arg_is_a_cmd(data, list_tokens->token))
 			return ;
 	if (unexpected_var_assignment(data))

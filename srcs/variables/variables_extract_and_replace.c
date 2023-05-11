@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variables_extract_and_replace.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 15:39:42 by ory               #+#    #+#             */
-/*   Updated: 2023/05/09 19:07:28 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/11 17:53:15 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void	get_var(char *str, int *i, char **result, t_data *data)
 	}
 	else
 			var_value = extract_var_value(str, *i, data);
+	if (!var_value && !data->token_list->next)
+		return ;
 	*result = append_string(*result, var_value);
 	free(var_value);
 	if (var_lenght == 1)
