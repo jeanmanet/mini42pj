@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:36:14 by ory               #+#    #+#             */
-/*   Updated: 2023/05/11 16:04:19 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/11 19:17:02 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	add_token_node(t_token_node **list_head,
 	int				flag_for_join_with_prev_token;
 
 	flag_for_join_with_prev_token = \
-		get_flag_for_join_with_prev_token(list_head, flags, token);
+		get_flag_for_join_with_prev_token(list_head, flags);
 	new_node = create_token_node(token, state,
 			flag_for_join_with_prev_token, flags);
 	if ((!ft_strcmp(new_node->token, "export") && !*list_head)

@@ -6,26 +6,28 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:36:51 by ory               #+#    #+#             */
-/*   Updated: 2023/05/11 15:54:56 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/11 19:16:47 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 int	get_flag_for_join_with_prev_token(t_token_node **list_head,
-	t_flag_var_join *flags, char *token)
+	t_flag_var_join *flags)
 {
 	int				flag_for_join_with_prev_token;
 	t_token_node	*current_node;
 
-	(void)token;
 	flag_for_join_with_prev_token = 0;
 	if (*list_head)
 	{
 		current_node = *list_head;
 		while (current_node->next != NULL)
 			current_node = current_node->next;
-		if (flags->flag_len_zero == 1)
+		if (current_node->token[ft_strlen(current_node->token) - 1]
+			== '=' && flags->flag_len_zero == 1)
+			flag_for_join_with_prev_token = 2;
+		else if (flags->flag_len_zero == 1)
 			flag_for_join_with_prev_token = 1;
 	}
 	return (flag_for_join_with_prev_token);

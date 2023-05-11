@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:50:44 by ory               #+#    #+#             */
-/*   Updated: 2023/05/11 16:50:17 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/11 19:21:01 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ int	variable_length(char *str, int start)
 	j = start + 1;
 	while (str[j])
 	{
-		if (str[j] == '$' || str[j] == '=' || str[j] == ':' || str[j] == '\'' || str[j] == '/')
+		if (str[j] == '$' || str[j] == '=' || str[j] == ':'
+			|| str[j] == '\'' || str[j] == '/')
 			break ;
 		len_var++;
 		j++;

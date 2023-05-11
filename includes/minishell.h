@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 12:09:47 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/11 16:08:25 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/11 19:17:08 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,7 +235,7 @@ int				check_for_unexpected_tokens(t_token_node *token_list);
 t_token_node	*init_token_node(char *token,
 					int flag_for_join_with_prev_token, t_flag_var_join *flags);
 int				get_flag_for_join_with_prev_token(t_token_node **list_head,
-					t_flag_var_join *flags, char *token);
+					t_flag_var_join *flags);
 void			get_var(char *str, int *i, char **result, t_data *data);
 void			var_assignment(t_data *data);
 void			export_var_assignment(char *name, char *arg, t_data *data);
