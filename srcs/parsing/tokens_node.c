@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_node.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:36:14 by ory               #+#    #+#             */
-/*   Updated: 2023/05/07 13:24:09 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/11 16:04:19 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_token_node	*init_token_node(char *token, int flag_for_join_with_prev_token)
+t_token_node	*init_token_node(char *token,
+	int flag_for_join_with_prev_token, t_flag_var_join *flags)
 {
 	t_token_node	*new_node;
 
@@ -31,17 +32,18 @@ t_token_node	*init_token_node(char *token, int flag_for_join_with_prev_token)
 	ft_strlcpy(new_node->token, token, ft_strlen(token)+ 1);
 	new_node->var_assignment = 1;
 	new_node->flag_for_join_with_prev_token = flag_for_join_with_prev_token;
+	new_node->flag_export_detect = flags->flag_export_detected;
 	new_node->next = NULL;
 	new_node->prev = NULL;
 	return (new_node);
 }
 
 t_token_node	*create_token_node(char *token, int state,
-	int flag_for_join_with_prev_token)
+	int flag_for_join_with_prev_token, t_flag_var_join *flags)
 {
 	t_token_node	*new_node;
 
-	new_node = init_token_node(token, flag_for_join_with_prev_token);
+	new_node = init_token_node(token, flag_for_join_with_prev_token, flags);
 	if (state == LEX_DQUOTE)
 		new_node->q_state = S_IN_DQUOTE;
 	else if (state == LEX_SQUOTE)
@@ -52,17 +54,21 @@ t_token_node	*create_token_node(char *token, int state,
 }
 
 void	add_token_node(t_token_node **list_head,
-	char *token, int state, int *flag_len_zero)
+	char *token, int state, t_flag_var_join *flags)
 {
 	t_token_node	*new_node;
 	t_token_node	*current_node;
 	int				flag_for_join_with_prev_token;
 
 	flag_for_join_with_prev_token = \
-		get_flag_for_join_with_prev_token(list_head, flag_len_zero);
-	new_node = create_token_node(token, state, flag_for_join_with_prev_token);
-	if (*flag_len_zero == 0)
-		*flag_len_zero = 1;
+		get_flag_for_join_with_prev_token(list_head, flags, token);
+	new_node = create_token_node(token, state,
+			flag_for_join_with_prev_token, flags);
+	if ((!ft_strcmp(new_node->token, "export") && !*list_head)
+		|| (!ft_strcmp(new_node->token, "export") && flags->flag_len_zero == 0))
+		flags->flag_export_detected = 1;
+	if (flags->flag_len_zero == 0)
+		flags->flag_len_zero = 1;
 	if (*list_head == NULL)
 	{
 		*list_head = new_node;

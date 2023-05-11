@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:58:50 by ory               #+#    #+#             */
-/*   Updated: 2023/05/10 14:29:20 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/11 16:01:16 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ int	unexpected_var_assignment(t_data *data)
 			{
 				if ((list_token->next == NULL || list_token->next->type < 4))
 				{
-					if (unexpected_char_in_name(list_token->token))
+					if (unexpected_char_in_name(list_token->token)
+						|| (list_token->flag_export_detect == 0
+						&& list_token->flag_for_join_with_prev_token == 2))
 					{
 						printf("%s: command not found\n", list_token->token);
 						g_global.code_error = 127;

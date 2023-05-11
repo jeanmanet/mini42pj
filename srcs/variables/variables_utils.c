@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variables_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:06:28 by ory               #+#    #+#             */
-/*   Updated: 2023/05/09 19:14:58 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/11 16:07:45 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@ void	join_var_was_splited_in_tokenizer(t_data *data)
 	list_tokens = data->token_list;
 	while (list_tokens)
 	{
-		if (list_tokens->flag_for_join_with_prev_token == 1)
+		if (list_tokens->prev
+			&& list_tokens->flag_for_join_with_prev_token == 1)
 		{
 			new_str = ft_strjoin(list_tokens->prev->token, list_tokens->token);
 			free(list_tokens->prev->token);
 			list_tokens->prev->token = ft_strdup(new_str);
+			list_tokens->prev->flag_for_join_with_prev_token = 2;
 			free(new_str);
 			delete_token_node(&list_tokens);
 			list_tokens = data->token_list;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 12:09:47 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/09 19:51:07 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/11 16:08:25 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ typedef struct s_token_node{
 	int					type;
 	int					flag_for_join_with_prev_token;
 	int					var_assignment;
+	int					flag_export_detect;
 	struct s_token_node	*next;
 	struct s_token_node	*prev;
 }t_token_node;
@@ -143,6 +144,12 @@ typedef struct s_flag
 	int	flag_plus;
 }		t_flag;
 
+typedef struct s_flag_var_join
+{
+	int	flag_len_zero;
+	int	flag_export_detected;
+}		t_flag_var_join;
+
 char			*get_absolute_command(char	*arg, char **envp);
 char			**ft_import_envp(char **envp);
 char			*ft_getenv(char *name, t_data *data);
@@ -162,9 +169,10 @@ int				open_outfile(t_data *data);
 void			parse_token_list(t_data *data);
 int				ft_lexing(char c);
 int				execute_ast(t_data *data);
-t_token_node	*create_token_node(char *token, int state, int flag);
+t_token_node	*create_token_node(char *token, int state,
+					int flag, t_flag_var_join *flags);
 void			add_token_node(t_token_node **list_head,
-					char *token, int state, int *flag);
+					char *token, int state, t_flag_var_join *flags);
 void			delete_token_node(t_token_node **node);
 void			print_tokens(t_token_node *list_head);
 t_token_node	*tokenizer(char *commandline);
@@ -222,12 +230,12 @@ int				ft_setenv_add(int i, char *name, char *value, t_data *data);
 char			*readline_here_doc(char *prompt);
 int				make_here_doc(t_com *command);
 void			tokenize_commandline(int start, char *commandline,
-					t_token_node **token_list, int *flag_len_zero);
+					t_token_node **token_list, t_flag_var_join *flags);
 int				check_for_unexpected_tokens(t_token_node *token_list);
 t_token_node	*init_token_node(char *token,
-					int flag_for_join_with_prev_token);
+					int flag_for_join_with_prev_token, t_flag_var_join *flags);
 int				get_flag_for_join_with_prev_token(t_token_node **list_head,
-					int *flag_len_zero);
+					t_flag_var_join *flags, char *token);
 void			get_var(char *str, int *i, char **result, t_data *data);
 void			var_assignment(t_data *data);
 void			export_var_assignment(char *name, char *arg, t_data *data);
