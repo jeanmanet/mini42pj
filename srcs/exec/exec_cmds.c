@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmds.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 09:28:44 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/10 10:14:46 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/11 22:22:54 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,12 @@ int	ft_perror(char *str)
 {
 	perror(str);
 	return (-1);
+}
+
+char	*print_access_error(char *str, char *cmd_name)
+{
+	printf("%s: %s\n", cmd_name, str);
+	return (NULL);
 }
 
 int	exec_processus(t_com *command, t_data *data)

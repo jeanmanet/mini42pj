@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmds_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 10:26:17 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/10 08:53:45 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/11 22:23:24 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,20 @@ char	*get_absolute_command(char	*arg, char **envp)
 	char	*cmd;
 	char	*path;
 	char	*cmd_name;
+	struct stat	sb;
 
 	cmd = arg;
 	cmd_name = arg;
 	if (!access(cmd, X_OK))
+	{
+		if (stat(cmd, &sb) == 0 && S_ISDIR(sb.st_mode))
+			return (print_access_error("is a directory", cmd_name));
 		return (ft_strdup(cmd));
+	}
+	if (errno == EACCES)
+		return (print_access_error("Permission denied", cmd_name));
+	if (!str_is_cmd(cmd, envp) && errno == ENOENT)
+		return (print_access_error("No such file or directory", cmd_name));
 	path = path_env(envp);
 	cmd = ft_absolute_path(cmd, path);
 	if (!cmd)
@@ -90,7 +99,7 @@ char	*get_absolute_command(char	*arg, char **envp)
 	return (cmd);
 }
 
-char	*str_is_cmd(char	*arg, char **envp)
+char	*str_is_cmd(char *arg, char **envp)
 {
 	char	*cmd;
 	char	*path;
