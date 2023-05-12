@@ -6,7 +6,7 @@
 #    By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/17 12:02:12 by jmanet            #+#    #+#              #
-#    Updated: 2023/05/12 10:25:09 by jmanet           ###   ########.fr        #
+#    Updated: 2023/05/12 17:29:22 by jmanet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ OBJS = ${SRCS:.c=.o}
 all : ${NAME}
 
 ${NAME} : ${LIBFT} ${OBJS} ${INCLUDES}
-	${CC} ${SRCS} ${LIBS} -I includes/ -L/Users/jmanet/.brew/Cellar/readline/8.2.1/lib ${FLAGS} -o ${NAME}
+	${CC} ${SRCS} ${LIBS} -I includes/ -L${HOME}/.brew/Cellar/readline/8.2.1/lib ${FLAGS} -o ${NAME}
 
 ${LIBFT}:
 	make bonus -C libft/
