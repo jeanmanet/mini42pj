@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 10:26:17 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/12 02:44:20 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/12 03:03:48 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char	*get_absolute_command(char	*arg, char **envp)
 	if (errno == EACCES)
 		return (print_access_error("Permission denied", cmd_name));
 	verif = str_is_cmd(cmd, envp);
-	if (!verif && errno == ENOENT)
+	if (!verif && errno == ENOENT && ft_strchr(cmd, '/'))
 		return (print_access_error("No such file or directory", cmd_name));
 	else
 		free (verif);
