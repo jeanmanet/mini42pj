@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:06:28 by ory               #+#    #+#             */
-/*   Updated: 2023/05/11 19:21:46 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/12 16:38:12 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	join_var_was_splited_in_tokenizer(t_data *data)
 			if (list_tokens->flag_for_join_with_prev_token == 1)
 				list_tokens->prev->flag_for_join_with_prev_token = 3;
 			else if (list_tokens->flag_for_join_with_prev_token == 2)
-				list_tokens->prev->flag_for_join_with_prev_token = 2;
+				list_tokens->prev->flag_for_join_with_prev_token = 4;
 			free(new_str);
 			delete_token_node(&list_tokens);
 			list_tokens = data->token_list;
@@ -79,6 +79,8 @@ void	var_assignment(t_data *data)
 			if (list_tokens->prev && list_tokens->prev->type != 1
 				&& list_tokens->prev->type != 2)
 				return ;
+		if (invalid_var_assign2(list_tokens))
+			return ;
 		if (list_tokens->type == T_ARG && list_tokens->token
 			&& ft_ischarset(list_tokens->token, '=')
 			&& list_tokens->q_state == 2)

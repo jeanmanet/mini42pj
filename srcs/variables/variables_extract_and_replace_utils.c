@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variables_extract_and_replace_utils.c              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:50:44 by ory               #+#    #+#             */
-/*   Updated: 2023/05/11 19:58:37 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/12 16:57:10 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ char	*extract_value_in_assignment(char *str)
 		}
 	}
 	if (flag_plus)
-		index++;
-	while (str[index] && str[index] == ' ')
 		index++;
 	value = ft_substr(str, index, i - index);
 	return (value);

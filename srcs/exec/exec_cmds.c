@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 09:28:44 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/12 02:35:11 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/12 16:47:29 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ int	exec_processus(t_com *command, t_data *data)
 	int		status;
 
 	cmd = command->args;
-	if (ft_strchr(cmd[0], '='))
-		return (0);
 	absolute_cmd = get_absolute_command(cmd[0], data->envp);
 	if (absolute_cmd)
 	{

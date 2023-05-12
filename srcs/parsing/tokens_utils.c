@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:36:51 by ory               #+#    #+#             */
-/*   Updated: 2023/05/12 08:15:06 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/12 17:01:29 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,13 @@ int	get_flag_for_join_with_prev_token(t_token_node **list_head,
 			&& !str_is_only_this_char(current_node->token, '='))
 			flag_for_join_with_prev_token = 2;
 		else if (flags->flag_len_zero == 1)
-			flag_for_join_with_prev_token = 1;
+ 			flag_for_join_with_prev_token = 1;
+		else if (flags->flag_len_zero == 1
+			&& !is_only_compose_by_redir_char(current_node->token))
+		{
+			if(current_node->prev && !is_only_compose_by_redir_char(current_node->prev->token))
+				flag_for_join_with_prev_token = 1;
+		}
 	}
 	return (flag_for_join_with_prev_token);
 }

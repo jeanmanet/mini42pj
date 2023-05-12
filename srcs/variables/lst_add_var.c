@@ -3,14 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   lst_add_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:44:07 by ory               #+#    #+#             */
-/*   Updated: 2023/05/07 13:39:48 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/12 16:22:26 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+char	*init_new_value(void)
+{
+	char	*str;
+
+	str = malloc(sizeof(str) * 1);
+	if (!str)
+		return (NULL);
+	ft_memset(str, 0, 1);
+	return (str);
+}
 
 void	lst_add_var(t_data *data, char *name, char *value, int flag)
 {

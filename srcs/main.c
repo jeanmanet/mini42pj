@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/29 22:03:37 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/11 19:47:22 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/12 16:47:49 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ t_data	*data_init(char **envp)
 
 	g_global.pid = 0;
 	g_global.code_error = 0;
+	g_global.exit_code = 0;
 	data = malloc(sizeof(*data));
 	if (!data)
 		ft_exit_error("Memory allocation error \n");
@@ -68,6 +69,7 @@ t_data	*data_init(char **envp)
 	data->commands_tree->root = NULL;
 	data->envp = ft_import_envp(envp);
 	data->pid = 0;
+	data->var_list = NULL;
 	return (data);
 }
 

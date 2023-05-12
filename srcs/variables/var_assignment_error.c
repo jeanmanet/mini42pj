@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   var_assignment_error.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
+/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:58:50 by ory               #+#    #+#             */
-/*   Updated: 2023/05/11 19:58:30 by jmanet           ###   ########.fr       */
+/*   Updated: 2023/05/12 15:41:06 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,27 @@ int	unexpected_var_assignment(t_data *data)
 	}
 	return (0);
 }
+
+int	invalid_var_assign2(t_token_node *token_list)
+{
+	int	i;
+
+	i = 0;
+	if (token_list->q_state <= S_IN_DQUOTE
+		&& ft_ischarset(token_list->token, '='))
+	{
+		while(token_list->token[i])
+		{
+			if (token_list->token[i] == '=' && token_list->token[i + 1] == ' ')
+			{
+				cmd_not_found(token_list->token);
+				return (1);
+			}
+			i++;
+		}
+	}
+	return (0);
+}	
 
 void	invalid_assignment(t_data *data)
 {
