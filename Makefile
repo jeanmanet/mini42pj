@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ory <ory@student.42.fr>                    +#+  +:+       +#+         #
+#    By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/11/17 12:02:12 by jmanet            #+#    #+#              #
-#    Updated: 2023/04/14 06:00:16 by ory              ###   ########.fr        #
+#    Updated: 2023/05/12 10:25:09 by jmanet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,7 @@ FLAGS = -Wall -Werror -Wextra -g #-fsanitize=address
 
 LIBFT = libft/libft.a
 
-LIBS =  ${LIBFT} ./libreadline.a -lreadline -lncurses
+LIBS =  ${LIBFT} -lreadline -lncurses
 
 .c.o:
 	${CC} -I ${INCLUDES} ${FLAGS} -c $< -o ${<:.c=.o}
@@ -33,7 +33,7 @@ OBJS = ${SRCS:.c=.o}
 all : ${NAME}
 
 ${NAME} : ${LIBFT} ${OBJS} ${INCLUDES}
-	${CC} ${SRCS} ${LIBS} -I includes/ ${FLAGS} -o ${NAME}
+	${CC} ${SRCS} ${LIBS} -I includes/ -L/Users/jmanet/.brew/Cellar/readline/8.2.1/lib ${FLAGS} -o ${NAME}
 
 ${LIBFT}:
 	make bonus -C libft/
