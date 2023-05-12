@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 12:09:47 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/12 15:41:38 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/12 17:13:53 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,5 +286,5 @@ char			*print_access_error(char *str, char *cmd_name);
 char			*resolve_absolute_path(char *cmd, char **envp, char *cmd_name);
 char			*path_env(char **envp);
 char			*ft_absolute_path(char *cmd, const char *PATH);
-int			invalid_var_assign2(t_token_node *token_list);
+int				invalid_var_assign2(t_token_node *token_list);
 #endif

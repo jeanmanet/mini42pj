@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variables_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 21:06:28 by ory               #+#    #+#             */
-/*   Updated: 2023/05/12 16:38:12 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/12 17:13:36 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,17 +61,24 @@ int	cmd_not_found_in_list(t_data *data)
 	return (0);
 }
 
+int	verif_pipe(t_token_node *list_tokens)
+{
+	while (list_tokens)
+	{
+		if (list_tokens->type == T_PIPE)
+			return (1);
+		list_tokens = list_tokens->next;
+	}
+	return (0);
+}
+
 void	var_assignment(t_data *data)
 {
 	t_token_node	*list_tokens;
 
 	list_tokens = data->token_list;
-	while (list_tokens)
-	{
-		if (list_tokens->type == T_PIPE)
-			return ;
-		list_tokens = list_tokens->next;
-	}
+	if (verif_pipe(list_tokens))
+		return ;
 	list_tokens = data->token_list;
 	while (list_tokens)
 	{
