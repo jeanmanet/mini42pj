@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 09:28:44 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/11 22:22:54 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/12 02:35:11 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,19 @@ int	exec_command(t_com *command, t_data *data)
 		free(command->infile);
 	}
 	return (returnval);
+}
+
+char	*resolve_absolute_path(char *cmd, char **envp, char *cmd_name)
+{
+	char	*path;
+	char	*abs_cmd;
+
+	path = path_env(envp);
+	abs_cmd = ft_absolute_path(cmd, path);
+	free(path);
+	if (!abs_cmd)
+		cmd_not_found(cmd_name);
+	return (abs_cmd);
 }
 
 int	ft_perror(char *str)

@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/13 10:26:17 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/11 22:23:24 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/12 02:44:20 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,10 @@ char	*ft_absolute_path(char *cmd, const char *PATH)
 
 char	*get_absolute_command(char	*arg, char **envp)
 {
-	char	*cmd;
-	char	*path;
-	char	*cmd_name;
+	char		*cmd;
+	char		*cmd_name;
 	struct stat	sb;
+	char		*verif;
 
 	cmd = arg;
 	cmd_name = arg;
@@ -89,14 +89,12 @@ char	*get_absolute_command(char	*arg, char **envp)
 	}
 	if (errno == EACCES)
 		return (print_access_error("Permission denied", cmd_name));
-	if (!str_is_cmd(cmd, envp) && errno == ENOENT)
+	verif = str_is_cmd(cmd, envp);
+	if (!verif && errno == ENOENT)
 		return (print_access_error("No such file or directory", cmd_name));
-	path = path_env(envp);
-	cmd = ft_absolute_path(cmd, path);
-	if (!cmd)
-		cmd_not_found(cmd_name);
-	free(path);
-	return (cmd);
+	else
+		free (verif);
+	return (resolve_absolute_path(cmd, envp, cmd_name));
 }
 
 char	*str_is_cmd(char *arg, char **envp)

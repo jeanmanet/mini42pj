@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 12:09:47 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/11 22:23:14 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/12 02:39:14 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -283,4 +283,7 @@ int				var_in_env(char *name, char *value, t_data *data,
 int				update_var_for_env(char *name, char *value,
 					t_data *data, t_flag *setenv_flag);
 char			*print_access_error(char *str, char *cmd_name);
+char			*resolve_absolute_path(char *cmd, char **envp, char *cmd_name);
+char			*path_env(char **envp);
+char			*ft_absolute_path(char *cmd, const char *PATH);
 #endif
