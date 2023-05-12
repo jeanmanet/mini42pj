@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins_ch_dir.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: jmanet <jmanet@student.42nice.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 08:52:39 by jmanet            #+#    #+#             */
-/*   Updated: 2023/05/12 00:53:29 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/12 17:26:04 by jmanet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,17 @@ int	update_directory(char *arg, t_data *data, t_flag *setenv_flag)
 
 	if (stat(arg, &sb) == 0)
 	{
-		if (S_ISDIR(sb.st_mode))
+		if (S_ISDIR(sb.st_mode) && !access(arg, R_OK))
 		{
 			update_pwd(pwd, arg, setenv_flag, data);
 			return (0);
 		}
 		else
 		{
-			printf("cd: %s: Not a directory\n", arg);
+			if (errno == EACCES)
+				printf("cd: %s: Permission denied\n", arg);
+			else
+				printf("cd: %s: Not a directory\n", arg);
 			g_global.code_error = 1;
 			return (1);
 		}
