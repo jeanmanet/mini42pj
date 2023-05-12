@@ -6,7 +6,7 @@
 /*   By: ory <ory@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/30 20:36:51 by ory               #+#    #+#             */
-/*   Updated: 2023/05/11 19:16:47 by ory              ###   ########.fr       */
+/*   Updated: 2023/05/12 08:15:06 by ory              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ int	get_flag_for_join_with_prev_token(t_token_node **list_head,
 		while (current_node->next != NULL)
 			current_node = current_node->next;
 		if (current_node->token[ft_strlen(current_node->token) - 1]
-			== '=' && flags->flag_len_zero == 1)
+			== '=' && flags->flag_len_zero == 1
+			&& !str_is_only_this_char(current_node->token, '='))
 			flag_for_join_with_prev_token = 2;
 		else if (flags->flag_len_zero == 1)
 			flag_for_join_with_prev_token = 1;
